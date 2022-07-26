@@ -146,6 +146,9 @@ class gitea::install (
       /(x86_64)/: {
         $arch = 'amd64'
       }
+      /(armv7l)/: {
+        $arch = 'arm-6'
+      }
       /(x86)/: {
         $arch = '386'
       }
