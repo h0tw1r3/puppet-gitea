@@ -6,23 +6,23 @@
 # Parameters
 # ----------
 #
-# * `manage_user`
-# Should we manage provisioning the user? Default: true
+# @param manage_user
+#  Should we manage provisioning the user? Default: true
 #
-# * `manage_group`
-# Should we manage provisioning the group? Default: true
+# @param manage_group
+#  Should we manage provisioning the group? Default: true
 #
-# * `manage_home`
-# Should we manage provisioning the home directory? Default: true
+# @param manage_home
+#  Should we manage provisioning the home directory? Default: true
 #
-# * `owner`
-# The user owning gitea and its' files. Default: 'git'
+# @param owner
+#  The user owning gitea and its' files. Default: 'git'
 #
-# * `group`
-# The group owning gitea and its' files. Default: 'git'
+# @param group
+#  The group owning gitea and its' files. Default: 'git'
 #
-# * `home`
-# Qualified path to the users' home directory. Default: empty
+# @param home
+#  Qualified path to the users' home directory. Default: empty
 #
 # Authors
 # -------

@@ -6,14 +6,14 @@
 # Parameters
 # ----------
 #
-# * `manage_service`
-# Should we manage a service definition for Gitea?
+# @param manage_service
+#  Should we manage a service definition for Gitea?
 #
-# * `service_provider`
-# Which service provider do we use?
+# @param service_provider
+#  Which service provider do we use?
 #
-# * `installation_directory`
-# Target directory to hold the gitea installation. Default: '/opt/gitea'
+# @param installation_directory
+#  Target directory to hold the gitea installation. Default: '/opt/gitea'
 #
 # Authors
 # -------

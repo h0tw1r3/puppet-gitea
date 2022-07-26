@@ -6,11 +6,11 @@
 # Parameters
 # ----------
 #
-# * `dependencies_ensure`
-# Should dependencies be installed? Defaults to 'present'.
+# @param dependencies_ensure
+#  Should dependencies be installed? Defaults to 'present'.
 #
-# * `dependencies`
-# List of OS family specific dependencies.
+# @param dependencies
+#  List of OS family specific dependencies.
 #
 # Authors
 # -------

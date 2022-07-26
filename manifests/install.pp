@@ -6,62 +6,62 @@
 # Parameters
 # ----------
 #
-# * `package_ensure`
-# Decides if the `gitea` binary will be installed. Default: 'present'
+# @param package_ensure
+#  Decides if the `gitea` binary will be installed. Default: 'present'
 #
-# * `owner`
-# The user owning gitea and its' files. Default: 'git'
+# @param owner
+#  The user owning gitea and its' files. Default: 'git'
 #
-# * `group`
-# The group owning gitea and its' files. Default: 'git'
+# @param group
+#  The group owning gitea and its' files. Default: 'git'
 #
-# * `proxy`
-# Download via specified proxy. Default: empty
-# * `base_url`
-# Download base URL. Default: Github. Can be used for local mirrors.
+# @param proxy
+#  Download via specified proxy. Default: empty
+# @param base_url
+#  Download base URL. Default: Github. Can be used for local mirrors.
 #
-# * `version`
-# Version of gitea to install. Default: '1.1.0'
+# @param version
+#  Version of gitea to install. Default: '1.1.0'
 #
-# * `checksum`
+# @param checksum
 # Checksum for the binary.
-# Default: '59cd3fb52292712bd374a215613d6588122d93ab19d812b8393786172b51d556'
+#  Default: '59cd3fb52292712bd374a215613d6588122d93ab19d812b8393786172b51d556'
 #
-# * `checksum_type`
-# Type of checksum used to verify the binary being installed. Default: 'sha256'
+# @param checksum_type
+#  Type of checksum used to verify the binary being installed. Default: 'sha256'
 #
-# * `installation_directory`
-# Target directory to hold the gitea installation. Default: '/opt/gitea'
+# @param installation_directory
+#  Target directory to hold the gitea installation. Default: '/opt/gitea'
 #
-# * `repository_root`
-# Directory where gitea will keep all git repositories. Default: '/var/git'
+# @param repository_root
+#  Directory where gitea will keep all git repositories. Default: '/var/git'
 #
-# * `log_directory`
-# Log directory for gitea. Default: '/var/log/gitea'
+# @param log_directory
+#  Log directory for gitea. Default: '/var/log/gitea'
 #
-# * `attachment_directory`
-# Directory for storing attachments. Default: '/opt/gitea/data/attachments'
+# @param attachment_directory
+#  Directory for storing attachments. Default: '/opt/gitea/data/attachments'
 #
-# * `lfs_enabled`
-# Make use of git-lfs. Default: false
+# @param lfs_enabled
+#  Make use of git-lfs. Default: false
 #
-# * `lfs_content_directory`
-# Directory for storing LFS data. Default: '/opt/gitea/data/lfs'
+# @param lfs_content_directory
+#  Directory for storing LFS data. Default: '/opt/gitea/data/lfs'
 #
-# * `manage_service`
-# Should we manage a service definition for Gitea?
+# @param manage_service
+#  Should we manage a service definition for Gitea?
 #
-# * `service_template`
-# Path to service template file.
+# @param service_template
+#  Path to service template file.
 #
-# * `service_path`
-# Where to create the service definition.
+# @param service_path
+#  Where to create the service definition.
 #
-# * `service_provider`
-# Which service provider do we use?
+# @param service_provider
+#  Which service provider do we use?
 #
-# * `service_mode`
-# File mode for the created service definition.
+# @param service_mode
+#  File mode for the created service definition.
 #
 # Authors
 # -------

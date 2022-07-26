@@ -6,35 +6,35 @@
 # Parameters
 # ----------
 #
-# * `configuration_sections`
-# INI style settings for configuring Gitea.
+# @param configuration_sections
+#  INI style settings for configuring Gitea.
 #
-# * `owner`
-# The user owning gitea and its' files. Default: 'git'
+# @param owner
+#  The user owning gitea and its' files. Default: 'git'
 #
-# * `group`
-# The group owning gitea and its' files. Default: 'git'
+# @param group
+#  The group owning gitea and its' files. Default: 'git'
 #
-# * `installation_directory`
-# Target directory to hold the gitea installation. Default: '/opt/gitea'
+# @param installation_directory
+#  Target directory to hold the gitea installation. Default: '/opt/gitea'
 #
-# * `repository_root`
-# Directory where gitea will keep all git repositories. Default: '/var/git'
+# @param repository_root
+#  Directory where gitea will keep all git repositories. Default: '/var/git'
 #
-# * `log_directory`
-# Log directory for gitea. Default: '/var/log/gitea'
+# @param log_directory
+#  Log directory for gitea. Default: '/var/log/gitea'
 #
-# * `attachment_directory`
-# Directory for storing attachments. Default: '/opt/gitea/data/attachments'
+# @param attachment_directory
+#  Directory for storing attachments. Default: '/opt/gitea/data/attachments'
 #
-# * `lfs_enabled`
-# Make use of git-lfs. Default: false
+# @param lfs_enabled
+#  Make use of git-lfs. Default: false
 #
-# * `lfs_content_directory`
-# Directory for storing LFS data. Default: '/opt/gitea/data/lfs'
+# @param lfs_content_directory
+#  Directory for storing LFS data. Default: '/opt/gitea/data/lfs'
 #
-# * `robots_txt`
-# Allows to provide a http://www.robotstxt.org/ file to restrict crawling.
+# @param robots_txt
+#  Allows to provide a http://www.robotstxt.org/ file to restrict crawling.
 #
 # Authors
 # -------
