@@ -140,12 +140,11 @@ class gitea (
 
   String $robots_txt,
 ) {
-  class { 'gitea::packages': }
-  class { 'gitea::user': }
-  class { 'gitea::install': }
-
-  class { 'gitea::config': }
-  class { 'gitea::service': }
+  contain gitea::packages
+  contain gitea::user
+  contain gitea::install
+  contain gitea::config
+  contain gitea::service
 
   Class['gitea::packages']
   -> Class['gitea::user']
