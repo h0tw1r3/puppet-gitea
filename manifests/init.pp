@@ -147,11 +147,7 @@ class gitea (
   class { 'gitea::config': }
   class { 'gitea::service': }
 
-  anchor { 'gitea::begin': }
-  anchor { 'gitea::end': }
-
-  Anchor['gitea::begin']
-  -> Class['gitea::packages']
+  Class['gitea::packages']
   -> Class['gitea::user']
   -> Class['gitea::install']
   -> Class['gitea::config']
