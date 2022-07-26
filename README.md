@@ -19,7 +19,7 @@ with default settings, or customize all settings to your liking.
 - `puppet-gitea` depends on
   - [puppetlabs-stdlib][puppetlabs-stdlib],
   - [puppetlabs-inifile][puppetlabs-inifile],
-  - [lwf-remote_file][lwf-remote_file],
+  - [puppet-archive][puppet-archive],
 - it install dependencies for gitea: `curl`, `git` and `tar`
 - it manages a user and group `git`
 - it manages the gitea directory (`/opt/gitea`) and the repositories (`/var/git`)
@@ -160,7 +160,7 @@ test cases and syntax checks pass.
 [gitea]: https://github.com/go-gitea/gitea
 [puppetlabs-stdlib]: https://github.com/puppetlabs/puppetlabs-stdlib
 [puppetlabs-inifile]: https://github.com/puppetlabs/puppetlabs-inifile
-[lwf-remote_file]: https://github.com/lwf/puppet-remote_file
+[puppet-archive]: https://github.com/voxpupuli/puppet-archive
 [puppet-rspec]: http://rspec-puppet.com/
 
 [build-status]: https://travis-ci.org/h0tw1r3/puppet-gitea

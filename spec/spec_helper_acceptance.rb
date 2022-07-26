@@ -16,7 +16,7 @@ RSpec.configure do |c|
     hosts.each do |host|
       on host, puppet('module', 'install', 'puppetlabs-stdlib'), acceptable_exit_codes: [0]
       on host, puppet('module', 'install', 'puppetlabs-inifile'), acceptable_exit_codes: [0]
-      on host, puppet('module', 'install', 'lwf-remote_file'), acceptable_exit_codes: [0]
+      on host, puppet('module', 'install', 'puppet-archive'), acceptable_exit_codes: [0]
     end
   end
 end

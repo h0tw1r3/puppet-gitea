@@ -156,28 +156,23 @@ class gitea::install (
 
     $source_url="${base_url}/${version}/gitea-${version}-${kernel_down}-${arch}"
 
-    remote_file { 'gitea':
+    archive { 'gitea':
       ensure        => $package_ensure,
       path          => "${installation_directory}/gitea",
       source        => $source_url,
-      proxy         => $proxy,
+      proxy_server  => $proxy,
       checksum      => $checksum,
       checksum_type => $checksum_type,
-      notify        => [
-        Exec["permissions:${$installation_directory}/gitea"],
-        Service['gitea']
-      ],
+      cleanup       => false,
+      extract       => false,
     }
+  }
+  -> file { "${installation_directory}/gitea":
+    mode => '0755',
   }
 
   exec { "permissions:${installation_directory}":
     command     => "chown -Rf ${owner}:${group} ${installation_directory}",
-    path        => '/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin',
-    refreshonly => true,
-  }
-
-  exec { "permissions:${$installation_directory}/gitea":
-    command     => "chmod +x ${$installation_directory}/gitea",
     path        => '/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin',
     refreshonly => true,
   }
