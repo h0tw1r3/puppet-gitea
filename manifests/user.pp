@@ -43,8 +43,7 @@ class gitea::user (
   String  $owner         = $gitea::owner,
   String  $group         = $gitea::group,
   Optional[String] $home = $gitea::home,
-  ) {
-
+) {
   if ($manage_home) {
     if $home == undef {
       $homedir = "/home/${owner}"

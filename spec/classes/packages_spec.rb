@@ -8,10 +8,10 @@ describe 'gitea::packages', type: :class do
       end
 
       context 'with :osfamily => "Debian"' do
-        if facts[:osfamily] == 'Debian'
+        if facts[:os][:family] == 'Debian'
           let :params do
             {
-              dependencies: %w[curl git tar],
+              dependencies: ['curl', 'git', 'tar'],
               dependencies_ensure: 'present',
             }
           end
@@ -23,10 +23,10 @@ describe 'gitea::packages', type: :class do
       end
 
       context 'with :osfamily => "RedHat"' do
-        if facts[:osfamily] == 'RedHat'
+        if facts[:os][:family] == 'RedHat'
           let :params do
             {
-              dependencies: %w[curl git initscripts tar],
+              dependencies: ['curl', 'git', 'initscripts', 'tar'],
               dependencies_ensure: 'present',
             }
           end

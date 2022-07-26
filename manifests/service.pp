@@ -31,8 +31,7 @@ class gitea::service (
   Boolean $manage_service        = $gitea::manage_service,
   String $service_provider       = $gitea::service_provider,
   String $installation_directory = $gitea::installation_directory,
-  ) {
-
+) {
   if ($manage_service) {
     service { 'gitea':
       ensure     => 'running',

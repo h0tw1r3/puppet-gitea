@@ -27,9 +27,8 @@
 class gitea::packages (
   Enum['latest','present','absent'] $dependencies_ensure = $gitea::dependencies_ensure,
   Array[String] $dependencies = $gitea::dependencies,
-  ) {
-
+) {
   if ($dependencies_ensure) {
-    ensure_packages($dependencies, {'ensure' => $dependencies_ensure})
+    ensure_packages($dependencies, { 'ensure' => $dependencies_ensure })
   }
 }

@@ -139,14 +139,13 @@ class gitea (
   String $service_mode,
 
   String $robots_txt,
-  ) {
+) {
+  class { 'gitea::packages': }
+  class { 'gitea::user': }
+  class { 'gitea::install': }
 
-  class { '::gitea::packages': }
-  class { '::gitea::user': }
-  class { '::gitea::install': }
-
-  class { '::gitea::config': }
-  class { '::gitea::service': }
+  class { 'gitea::config': }
+  class { 'gitea::service': }
 
   anchor { 'gitea::begin': }
   anchor { 'gitea::end': }

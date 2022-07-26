@@ -97,8 +97,7 @@ class gitea::install (
   String $service_path           = $gitea::service_path,
   String $service_provider       = $gitea::service_provider,
   String $service_mode           = $gitea::service_mode,
-  ) {
-
+) {
   file { $repository_root:
     ensure => 'directory',
     owner  => $owner,
@@ -141,9 +140,9 @@ class gitea::install (
   }
 
   if ($package_ensure) {
-    $kernel_down=downcase($::kernel)
+    $kernel_down=downcase($facts['kernel'])
 
-    case $::architecture {
+    case $facts['os']['architecture'] {
       /(x86_64)/: {
         $arch = 'amd64'
       }
@@ -151,7 +150,7 @@ class gitea::install (
         $arch = '386'
       }
       default: {
-        $arch = $::architecture
+        $arch = $facts['os']['architecture']
       }
     }
 

@@ -59,8 +59,7 @@ class gitea::config (
   String $lfs_content_directory  = $gitea::lfs_content_directory,
   Boolean $lfs_enabled           = $gitea::lfs_enabled,
   String $robots_txt             = $gitea::robots_txt,
-  ) {
-
+) {
   $required_settings = {
     '' => {
       'RUN_USER' => $owner,
@@ -69,7 +68,7 @@ class gitea::config (
       'ROOT' => $repository_root,
     },
     'log' => {
-      'MODE' =>'file',
+      'MODE' => 'file',
       'ROOT_PATH' => $log_directory,
     },
     'attachment' => {
