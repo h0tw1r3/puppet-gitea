@@ -163,9 +163,9 @@ test cases and syntax checks pass.
 [lwf-remote_file]: https://github.com/lwf/puppet-remote_file
 [puppet-rspec]: http://rspec-puppet.com/
 
-[build-status]: https://travis-ci.org/kogitoapp/puppet-gitea
-[build-shield]: https://travis-ci.org/kogitoapp/puppet-gitea.png?branch=master
-[forge-gitea]: https://forge.puppetlabs.com/kogitoapp/gitea
-[forge-shield]: https://img.shields.io/puppetforge/v/kogitoapp/gitea.svg
-[forge-shield-dl]: https://img.shields.io/puppetforge/dt/kogitoapp/gitea.svg
-[forge-shield-sc]: https://img.shields.io/puppetforge/f/kogitoapp/gitea.svg
+[build-status]: https://travis-ci.org/h0tw1r3/puppet-gitea
+[build-shield]: https://travis-ci.org/h0tw1r3/puppet-gitea.png?branch=main
+[forge-gitea]: https://forge.puppetlabs.com/h0tw1r3/gitea
+[forge-shield]: https://img.shields.io/puppetforge/v/h0tw1r3/gitea.svg
+[forge-shield-dl]: https://img.shields.io/puppetforge/dt/h0tw1r3/gitea.svg
+[forge-shield-sc]: https://img.shields.io/puppetforge/f/h0tw1r3/gitea.svg

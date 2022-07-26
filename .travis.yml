@@ -46,7 +46,7 @@ notifications:
   email: false
 deploy:
   provider: puppetforge
-  user: kogitoapp
+  user: h0tw1r3
   on:
     tags: true
     all_branches: true
