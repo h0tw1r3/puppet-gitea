@@ -3,66 +3,6 @@
 #
 # Installs gitea, and sets up the directory structure required to run Gitea.
 #
-# Parameters
-# ----------
-#
-# @param package_ensure
-#  Decides if the `gitea` binary will be installed. Default: 'present'
-#
-# @param owner
-#  The user owning gitea and its' files. Default: 'git'
-#
-# @param group
-#  The group owning gitea and its' files. Default: 'git'
-#
-# @param proxy
-#  Download via specified proxy. Default: empty
-# @param base_url
-#  Download base URL. Default: Github. Can be used for local mirrors.
-#
-# @param version
-#  Version of gitea to install. Default: '1.1.0'
-#
-# @param checksum
-# Checksum for the binary.
-#  Default: '59cd3fb52292712bd374a215613d6588122d93ab19d812b8393786172b51d556'
-#
-# @param checksum_type
-#  Type of checksum used to verify the binary being installed. Default: 'sha256'
-#
-# @param installation_directory
-#  Target directory to hold the gitea installation. Default: '/opt/gitea'
-#
-# @param repository_root
-#  Directory where gitea will keep all git repositories. Default: '/var/git'
-#
-# @param log_directory
-#  Log directory for gitea. Default: '/var/log/gitea'
-#
-# @param attachment_directory
-#  Directory for storing attachments. Default: '/opt/gitea/data/attachments'
-#
-# @param lfs_enabled
-#  Make use of git-lfs. Default: false
-#
-# @param lfs_content_directory
-#  Directory for storing LFS data. Default: '/opt/gitea/data/lfs'
-#
-# @param manage_service
-#  Should we manage a service definition for Gitea?
-#
-# @param service_template
-#  Path to service template file.
-#
-# @param service_path
-#  Where to create the service definition.
-#
-# @param service_provider
-#  Which service provider do we use?
-#
-# @param service_mode
-#  File mode for the created service definition.
-#
 # Authors
 # -------
 #
@@ -75,140 +15,70 @@
 # Copyright 2022 Jeffrey Clark <https://github.com/h0tw1r3>
 # Copyright 2016-2019 Daniel S. Reichenbach <https://kogitoapp.com>
 #
-class gitea::install (
-  Enum['present','absent'] $package_ensure = $gitea::package_ensure,
-  String $owner                  = $gitea::owner,
-  String $group                  = $gitea::group,
-
-  Optional[String] $proxy        = $gitea::proxy,
-  String $base_url               = $gitea::base_url,
-  String $version                = $gitea::version,
-  String $checksum               = $gitea::checksum,
-  String $checksum_type          = $gitea::checksum_type,
-  String $installation_directory = $gitea::installation_directory,
-  String $repository_root        = $gitea::repository_root,
-  String $log_directory          = $gitea::log_directory,
-  String $attachment_directory   = $gitea::attachment_directory,
-  Boolean $lfs_enabled           = $gitea::lfs_enabled,
-  String $lfs_content_directory  = $gitea::lfs_content_directory,
-
-  Boolean $manage_service        = $gitea::manage_service,
-  String $service_template       = $gitea::service_template,
-  String $service_path           = $gitea::service_path,
-  String $service_provider       = $gitea::service_provider,
-  String $service_mode           = $gitea::service_mode,
-) {
-  file { $repository_root:
-    ensure => 'directory',
-    owner  => $owner,
-    group  => $group,
-    notify => Exec["permissions:${repository_root}"],
+class gitea::install {
+  file { [
+      $gitea::work_path,
+      $gitea::configuration['server']['APP_DATA_PATH'],
+      $gitea::configuration['repository']['ROOT'],
+    ]:
+      ensure => 'directory',
+      owner  => $gitea::owner,
+      group  => $gitea::group,
   }
 
-  -> file { $installation_directory:
-    ensure => 'directory',
-    owner  => $owner,
-    group  => $group,
-    notify => Exec["permissions:${installation_directory}"],
-  }
+  $kernel_down = downcase($facts['kernel'])
 
-  -> file { "${installation_directory}/data":
-    ensure => 'directory',
-    owner  => $owner,
-    group  => $group,
-  }
-
-  -> file { $attachment_directory:
-    ensure => 'directory',
-    owner  => $owner,
-    group  => $group,
-    notify => Exec["permissions:${attachment_directory}"],
-  }
-
-  -> file { $lfs_content_directory:
-    ensure => 'directory',
-    owner  => $owner,
-    group  => $group,
-    notify => Exec["permissions:${lfs_content_directory}"],
-  }
-
-  -> file { $log_directory:
-    ensure => 'directory',
-    owner  => $owner,
-    group  => $group,
-    notify => Exec["permissions:${log_directory}"],
-  }
-
-  if ($package_ensure) {
-    $kernel_down=downcase($facts['kernel'])
-
-    case $facts['os']['architecture'] {
-      /(x86_64)/: {
-        $arch = 'amd64'
-      }
-      /(armv7l)/: {
-        $arch = 'arm-6'
-      }
-      /(x86)/: {
-        $arch = '386'
-      }
-      default: {
-        $arch = $facts['os']['architecture']
-      }
+  case $facts['os']['architecture'] {
+    /(x86_64)/: {
+      $arch = 'amd64'
     }
-
-    $source_url="${base_url}/${version}/gitea-${version}-${kernel_down}-${arch}"
-
-    archive { 'gitea':
-      ensure        => $package_ensure,
-      path          => "${installation_directory}/gitea",
-      source        => $source_url,
-      proxy_server  => $proxy,
-      checksum      => $checksum,
-      checksum_type => $checksum_type,
-      cleanup       => false,
-      extract       => false,
+    /(armv7l)/: {
+      $arch = 'arm-6'
+    }
+    /(x86)/: {
+      $arch = '386'
+    }
+    default: {
+      $arch = $facts['os']['architecture']
     }
   }
-  -> file { "${installation_directory}/gitea":
+
+  $source_url = "${gitea::base_url}/${gitea::version}/gitea-${gitea::version}-${kernel_down}-${arch}"
+  $bin_path = "${gitea::work_path}/gitea"
+
+  package { 'git': }
+  -> archive { 'gitea':
+    path          => $bin_path,
+    source        => $source_url,
+    proxy_server  => $gitea::proxy,
+    checksum      => $gitea::checksum,
+    checksum_type => 'sha256',
+    cleanup       => false,
+    extract       => false,
+  }
+  -> file { $bin_path:
     mode => '0755',
   }
 
-  exec { "permissions:${installation_directory}":
-    command     => "chown -Rf ${owner}:${group} ${installation_directory}",
-    path        => '/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin',
-    refreshonly => true,
+  # Workaround Debian systemd tmp permissions bug
+  Exec <| title == 'systemd-tmpfiles' |> {
+    returns => [0,73]
   }
 
-  exec { "permissions:${repository_root}":
-    command     => "chown -Rf ${owner}:${group} ${repository_root}",
-    path        => '/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin',
-    refreshonly => true,
+  systemd::tmpfile { 'gitea.conf':
+    content => epp($gitea::tmpfile_epp, {
+        user     => $gitea::owner,
+        group    => $gitea::group,
+        run_path => $gitea::run_path,
+    }),
   }
-
-  exec { "permissions:${log_directory}":
-    command     => "chown -Rf ${owner}:${group} ${log_directory}",
-    path        => '/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin',
-    refreshonly => true,
-  }
-
-  exec { "permissions:${attachment_directory}":
-    command     => "chown -Rf ${owner}:${group} ${attachment_directory}",
-    path        => '/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin',
-    refreshonly => true,
-  }
-
-  exec { "permissions:${lfs_content_directory}":
-    command     => "chown -Rf ${owner}:${group} ${lfs_content_directory}",
-    path        => '/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin',
-    refreshonly => true,
-  }
-
-  if ($manage_service) {
-    file { "service:${service_path}":
-      path    => $service_path,
-      content => template($service_template),
-      mode    => $service_mode,
-    }
+  -> systemd::unit_file { 'gitea.service':
+    content => epp($gitea::service_epp, {
+        user      => $gitea::owner,
+        group     => $gitea::group,
+        run_path  => $gitea::run_path,
+        work_path => $gitea::work_path,
+        bin_path  => $bin_path,
+    }),
   }
 }

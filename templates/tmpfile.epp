@@ -1,0 +1,5 @@
+<%- | String $user,
+      String $group,
+      String $run_path,
+| -%>
+d <%= $run_path %> 0751 <%= $user %> <%= $group %>

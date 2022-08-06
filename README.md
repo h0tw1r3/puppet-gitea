@@ -20,9 +20,8 @@ with default settings, or customize all settings to your liking.
   - [puppetlabs-stdlib][puppetlabs-stdlib],
   - [puppetlabs-inifile][puppetlabs-inifile],
   - [puppet-archive][puppet-archive],
-- it install dependencies for gitea: `curl`, `git` and `tar`
 - it manages a user and group `git`
-- it manages the gitea directory (`/opt/gitea`) and the repositories (`/var/git`)
+- it manages the gitea working directory
 - it install a `gitea` service listening on port `3000`
 
 ### Beginning with Gitea
@@ -31,7 +30,7 @@ The simplest use case is to rely on defaults. This can be done by simply
 including the class:
 
 ```puppet
-include ::gitea
+include gitea
 ```
 
 ## Reference
@@ -40,9 +39,6 @@ include ::gitea
 
 ```puppet
 class { 'gitea':
-    package_ensure => 'present',
-    dependencies_ensure => 'present',
-    dependencies => ['curl', 'git', 'tar'],
     manage_user => true,
     manage_group => true,
     manage_home => true,
@@ -52,87 +48,9 @@ class { 'gitea':
     version => '1.1.0',
     checksum => '59cd3fb52292712bd374a215613d6588122d93ab19d812b8393786172b51d556',
     checksum_type => 'sha256',
-    installation_directory => '/opt/gitea',
-    repository_root => '/var/git',
-    log_directory => '/var/log/gitea',
-    attachment_directory => '/opt/gitea/data/attachments',
-    lfs_content_directory => '/opt/gitea/data/lfs',
-    configuration_sections => {},
     manage_service => true,
-    service_template => 'gitea/systemd.erb',
-    service_path => '/lib/systemd/system/gitea.service',
-    service_provider => 'systemd',
-    service_mode => '0644',
-}
-```
-
-### Class: `gitea::packages`
-
-```puppet
-class { 'gitea::packages':
-    dependencies_ensure => 'present',
-    dependencies => ['curl', 'git', 'tar'],
-}
-```
-
-### Class: `gitea::user`
-
-```puppet
-class { 'gitea::user':
-    manage_user => true,
-    manage_group => true,
-    manage_home => true,
-    owner => 'git',
-    group => 'git',
-    home => '/home/git',
-}
-```
-
-### Class: `gitea::install`
-
-```puppet
-class { 'gitea::install':
-    package_ensure => 'present',
-    owner => 'git',
-    group => 'git',
-    version => '1.1.0',
-    checksum => '59cd3fb52292712bd374a215613d6588122d93ab19d812b8393786172b51d556',
-    checksum_type => 'sha256',
-    installation_directory => '/opt/gitea',
-    repository_root => '/var/git',
-    log_directory => '/var/log/gitea',
-    attachment_directory => '/opt/gitea/data/attachments',
-    lfs_content_directory => '/opt/gitea/data/lfs',
-    manage_service => true,
-    service_template => 'gitea/systemd.erb',
-    service_path => '/lib/systemd/system/gitea.service',
-    service_provider => 'systemd',
-    service_mode => '0644',
-}
-```
-
-### Class: `gitea::service`
-
-```puppet
-class { 'gitea::service':
-    manage_service => true,
-    service_provider => 'systemd',
-    installation_directory => '/opt/gitea',
-    log_directory => '/var/log/gitea',
-}
-```
-
-### Class: `gitea::config`
-
-```puppet
-class { 'gitea::config':
-    configuration_sections => {},
-    owner => 'git',
-    group => 'git',
-    installation_directory => '/opt/gitea',
-    repository_root => '/var/git',
-    attachment_directory => '/opt/gitea/data/attachments',
-    lfs_content_directory => '/opt/gitea/data/lfs',
+    service_epp => 'gitea/systemd.epp',
+    tmpfile_epp => 'gitea/tmpfile.epp',
 }
 ```
 

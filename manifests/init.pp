@@ -6,15 +6,6 @@
 # Parameters
 # ----------
 #
-# @param package_ensure
-#  Decides if the `gitea` binary will be installed. Default: 'present'
-#
-# @param dependencies_ensure
-#  Should dependencies be installed? Defaults to 'present'.
-#
-# @param dependencies
-#  List of OS family specific dependencies.
-#
 # @param manage_user
 #  Should we manage provisioning the user? Default: true
 #
@@ -45,47 +36,29 @@
 # @param checksum
 #  Checksum for the binary.
 #
-# @param checksum_type
-#  Type of checksum used to verify the binary being installed. Default: 'sha256'
-#
-# @param installation_directory
+# @param work_path
 #  Target directory to hold the gitea installation. Default: '/opt/gitea'
 #
-# @param repository_root
-#  Directory where gitea will keep all git repositories. Default: '/var/git'
+# @param default_configuration
+#  INI style settings for configuring Gitea, may be overridden by custom_configuration.
 #
-# @param log_directory
-#  Log directory for gitea. Default: '/var/log/gitea'
-#
-# @param attachment_directory
-#  Directory for storing attachments. Default: '/opt/gitea/data/attachments'
-#
-# @param lfs_enabled
-#  Make use of git-lfs. Default: false
-#
-# @param lfs_content_directory
-#  Directory for storing LFS data. Default: '/opt/gitea/data/lfs'
-#
-# @param configuration_sections
+# @param custom_configuration
 #  INI style settings for configuring Gitea.
 #
 # @param manage_service
 #  Should we manage a service definition for Gitea?
 #
-# @param service_template
-#  Path to service template file.
+# @param service_epp
+#  Path to service epp template file.
 #
-# @param service_path
-#  Where to create the service definition.
-#
-# @param service_provider
-#  Which service provider do we use?
-#
-# @param service_mode
-#  File mode for the created service definition.
+# @param tmpfile_epp
+#  Path to tmpfile epp template file.
 #
 # @param robots_txt
 #  Allows to provide a http://www.robotstxt.org/ file to restrict crawling.
+#
+# @param run_path
+#  Path to service runtime path. Default: '/run/gitea'
 #
 # Examples
 # --------
@@ -107,10 +80,6 @@
 # Copyright 2016-2019 Daniel S. Reichenbach <https://kogitoapp.com>
 #
 class gitea (
-  Enum['present','absent'] $package_ensure,
-  Enum['latest','present','absent'] $dependencies_ensure,
-  Array[String] $dependencies,
-
   Boolean $manage_user,
   Boolean $manage_group,
   Boolean $manage_home,
@@ -122,33 +91,41 @@ class gitea (
   String $base_url,
   String $version,
   String $checksum,
-  String $checksum_type,
-  String $installation_directory,
-  String $repository_root,
-  String $log_directory,
-  String $attachment_directory,
-  Boolean $lfs_enabled,
-  String $lfs_content_directory,
+  String $work_path,
 
-  Hash $configuration_sections,
+  Hash $custom_configuration,
+  Hash $default_configuration,
 
   Boolean $manage_service,
-  String $service_template,
-  String $service_path,
-  String $service_provider,
-  String $service_mode,
+  String $service_epp,
+  String $tmpfile_epp,
+  String $run_path,
 
   String $robots_txt,
 ) {
-  contain gitea::packages
+  $base_configuration = {
+    '' => {
+      'RUN_USER' => $owner,
+    },
+  }
+
+  $configuration = deep_merge(
+    deep_merge($base_configuration, $default_configuration),
+    $custom_configuration)
+
   contain gitea::user
   contain gitea::install
   contain gitea::config
-  contain gitea::service
 
-  Class['gitea::packages']
-  -> Class['gitea::user']
+  if $manage_service {
+    contain gitea::service
+    Class['gitea::config']
+    ~> Class['gitea::service']
+    Class['gitea::install']
+    ~> Class['gitea::service']
+  }
+
+  Class['gitea::user']
   -> Class['gitea::install']
   -> Class['gitea::config']
-  ~> Class['gitea::service']
 }

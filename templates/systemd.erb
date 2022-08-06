@@ -7,7 +7,7 @@ Type=simple
 WorkingDirectory=<%= @installation_directory %>
 User=<%= @owner %>
 ExecStart=<%= @installation_directory %>/gitea web
-PIDFile=/var/spool/gitea/pid/master.pid
+PIDFile=<%= @pid_file %>
 LimitNOFILE=49152
 
 [Install]

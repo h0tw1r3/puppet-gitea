@@ -1,7 +1,11 @@
 ---
-gitea::package_ensure: 'present'
+lookup_options:
+  gitea::custom_configuration:
+    merge: deep
+
 gitea::dependencies_ensure: 'present'
 gitea::dependencies: []
+gitea::manage_service: true
 gitea::manage_user: true
 gitea::manage_group: true
 gitea::manage_home: true
@@ -10,19 +14,23 @@ gitea::group: 'git'
 gitea::home: ~
 gitea::proxy: ~
 gitea::base_url: 'https://dl.gitea.io/gitea'
-gitea::version: '1.8.0'
-gitea::checksum: '917497fd7ac3bd3d1c953cf11a117ccb0d7bcadb86243d3bc031fb4c9253c7ff'
-gitea::checksum_type: 'sha256'
-gitea::installation_directory: '/opt/gitea'
-gitea::repository_root: '/var/lib/gitea'
-gitea::log_directory: '/var/log/gitea'
-gitea::attachment_directory: '/opt/gitea/data/attachments'
-gitea::lfs_enabled: false
-gitea::lfs_content_directory: '/opt/gitea/data/lfs'
-gitea::configuration_sections: {}
-gitea::manage_service: true
-gitea::service_template: 'gitea/systemd.erb'
-gitea::service_path: '/lib/systemd/system/gitea.service'
-gitea::service_provider: 'systemd'
-gitea::service_mode: '0644'
+gitea::version: '1.16.9'
+gitea::checksum: '821dd30afed9ae42b18e727174b078ea9118a6ccc5106d8246bebf8180fcbef3'
+gitea::run_path: '/run/gitea'
+gitea::work_path: '/opt/gitea'
+gitea::app_data_path: "%{lookup('gitea::work_path')}/data"
+gitea::default_configuration:
+  server:
+    APP_DATA_PATH: "%{lookup('gitea::app_data_path')}"
+  repository:
+    ROOT: "%{lookup('gitea::app_data_path')}/gitea-repositories"
+  database:
+    DB_TYPE: 'sqlite3'
+    LOG_SQL: 'false'
+  security:
+    INSTALL_LOCK: 'true'
+  log:
+    DISABLE_ROUTER_LOG: 'true'
+gitea::service_epp: 'gitea/systemd.epp'
+gitea::tmpfile_epp: 'gitea/tmpfile.epp'
 gitea::robots_txt: ''
