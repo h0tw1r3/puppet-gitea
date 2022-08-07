@@ -17,17 +17,12 @@
 #
 class gitea::config {
   file { [
-    "${gitea::work_path}/custom",
-    "${gitea::work_path}/custom/conf",
-    "${gitea::work_path}/custom/public",
-    "${gitea::work_path}/custom/public/css",
-    "${gitea::work_path}/custom/public/img",
-    "${gitea::work_path}/custom/templates",
-    "${gitea::work_path}/custom/templates/custom",
-  ]:
-    ensure => directory,
-    owner  => $gitea::owner,
-    group  => $gitea::group,
+      "${gitea::work_path}/custom",
+      "${gitea::work_path}/custom/conf",
+    ]:
+      ensure => directory,
+      owner  => $gitea::owner,
+      group  => $gitea::group,
   }
 
   $gitea_configuration = {

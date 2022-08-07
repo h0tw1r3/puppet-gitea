@@ -20,6 +20,7 @@ with default settings, or customize all settings to your liking.
   - [puppetlabs-stdlib][puppetlabs-stdlib],
   - [puppetlabs-inifile][puppetlabs-inifile],
   - [puppet-archive][puppet-archive],
+  - [puppet-extlib][puppet-extlib],
 - it manages a user and group `git`
 - it manages the gitea working directory
 - it install a `gitea` service listening on port `3000`
@@ -79,6 +80,7 @@ test cases and syntax checks pass.
 [puppetlabs-stdlib]: https://github.com/puppetlabs/puppetlabs-stdlib
 [puppetlabs-inifile]: https://github.com/puppetlabs/puppetlabs-inifile
 [puppet-archive]: https://github.com/voxpupuli/puppet-archive
+[puppet-extlib]: https://github.com/voxpupuli/puppet-extlib
 [puppet-rspec]: http://rspec-puppet.com/
 
 [build-status]: https://travis-ci.org/h0tw1r3/puppet-gitea

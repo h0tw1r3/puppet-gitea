@@ -12,5 +12,8 @@ fixtures:
     archive:
       repo: 'https://github.com/voxpupuli/puppet-archive.git'
       ref: 'v4.5.0'
+    extlib:
+      repo: 'https://github.com/voxpupuli/puppet-extlib.git'
+      ref: 'v6.0.0'
   symlinks:
     gitea: "#{source_dir}"
