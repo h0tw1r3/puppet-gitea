@@ -31,6 +31,7 @@ gitea::default_configuration:
     INSTALL_LOCK: 'true'
   log:
     DISABLE_ROUTER_LOG: 'true'
+gitea::custom_configuration: {}
 gitea::service_epp: 'gitea/systemd.epp'
 gitea::tmpfile_epp: 'gitea/tmpfile.epp'
 gitea::robots_txt: ''
