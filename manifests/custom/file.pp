@@ -1,13 +1,25 @@
-# gitea custom file
+# @summary gitea custom file
 #
-# Parameters
-# ----------
+# Manage files in the Gitea `CustomPath` folder
+#
+# @see https://docs.gitea.io/en-us/customizing-gitea/
+#
+# @example custom css
+#   gitea::custom::file { 'public/css/custom.css':
+#     content => file('profile/gitea/custom.css'),
+#   }
+#
+# @example custom logo
+#   gitea::custom::file { 'public/img/logo.svg':
+#     source => 'puppet:///modules/profile/gitea/logo.svg',
+#   }
 #
 # @param source
-#  optional file source
+#   File source
 #
 # @param content
-#  optional file content
+#   File content
+#
 define gitea::custom::file (
   Variant[String,Undef] $source  = undef,
   Variant[String,Undef] $content = undef,

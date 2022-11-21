@@ -1,83 +1,76 @@
-# Class: gitea
-# ===========================
+# @summary main class includes all other classes
 #
-# Manages a Gitea installation on various Linux/BSD operating systems.
+# Install Gitea, a painless self-hosted Git service.
+# Review module hiera for default parameter values.
 #
-# Parameters
-# ----------
+# @example Basic usage
+#   include gitea
+#
+# @example Install specific version
+#   class { 'gitea':
+#     version  => '1.17.0',
+#     checksum => 'bc4a8e1f5d5f64d4be2e50c387de08d07c062aecdba2f742c2f61c20accfcc46',
+#   }
+#
+# @see https://gitea.io
 #
 # @param manage_user
-#  Should we manage provisioning the user? Default: true
+#   Should we manage provisioning the user?
 #
 # @param manage_group
-#  Should we manage provisioning the group? Default: true
+#   Should we manage provisioning the group?
 #
 # @param manage_home
-#  Should we manage provisioning the home directory? Default: true
+#   Should we manage provisioning the home directory?
 #
 # @param owner
-#  The user owning gitea and its' files. Default: 'git'
+#   The user owning gitea
 #
 # @param group
-#  The group owning gitea and its' files. Default: 'git'
+#   The group owning gitea
 #
 # @param home
-#  Qualified path to the users' home directory. Default: empty
+#   Qualified path to the user home directory
 #
 # @param proxy
-#  Download via specified proxy. Default: empty
+#   Download gitea release via specified proxy
 #
 # @param base_url
-#  Download base URL. Default: Github. Can be used for local mirrors.
+#   Download base URL
 #
 # @param version
-#  Version of gitea to install. Default: '1.1.0'
+#   Version of gitea to install
 #
 # @param checksum
-#  Checksum for the binary.
+#   Checksum for the release binary
 #
 # @param work_path
-#  Target directory to hold the gitea installation. Default: '/opt/gitea'
+#   Target directory for the gitea installation
 #
 # @param default_configuration
-#  INI style settings for configuring Gitea, may be overridden by custom_configuration.
+#   Settings for configuring Gitea. A simple working configuration is
+#   provided (see hiera). Generally this parameter should NOT be provided.
+#   Instead set the custom_configuration parameter to override built-in
+#   defaults.
 #
 # @param custom_configuration
-#  INI style settings for configuring Gitea.
+#   Override default configuration for configuring Gitea.
+#   The value is merged with the `default_configuration` parameter value.
 #
 # @param manage_service
-#  Should we manage a service definition for Gitea?
+#   Should we manage a service definition for Gitea?
 #
 # @param service_epp
-#  Path to service epp template file.
+#   Path to service epp template file
 #
 # @param tmpfile_epp
-#  Path to tmpfile epp template file.
+#   Path to tmpfile epp template file
 #
 # @param robots_txt
-#  Allows to provide a http://www.robotstxt.org/ file to restrict crawling.
+#   Allows to provide a http://www.robotstxt.org/ file to restrict crawling
 #
 # @param run_path
-#  Path to service runtime path. Default: '/run/gitea'
-#
-# Examples
-# --------
-#
-# @example
-#    class { 'gitea':
-#    }
-#
-# Authors
-# -------
-#
-# Jeffrey Clark <h0tw1r3@users.noreply.github.com>
-# Daniel S. Reichenbach <daniel@kogitoapp.com>
-#
-# Copyright
-# ---------
-#
-# Copyright 2022 Jeffrey Clark <https://github.com/h0tw1r3>
-# Copyright 2016-2019 Daniel S. Reichenbach <https://kogitoapp.com>
+#   Path to service runtime path
 #
 class gitea (
   Boolean $manage_user,

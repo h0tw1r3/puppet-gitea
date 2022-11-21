@@ -1,40 +1,24 @@
-# Class: gitea::user
-# ===========================
+# @summary creates gitea user
 #
-# Manages user for the `::gitea` class.
-#
-# Parameters
-# ----------
+# @api private
 #
 # @param manage_user
-#  Should we manage provisioning the user? Default: true
+#   Should we manage provisioning the user?
 #
 # @param manage_group
-#  Should we manage provisioning the group? Default: true
+#   Should we manage provisioning the group?
 #
 # @param manage_home
-#  Should we manage provisioning the home directory? Default: true
+#   Should we manage provisioning the home directory?
 #
 # @param owner
-#  The user owning gitea and its' files. Default: 'git'
+#   The user owning gitea
 #
 # @param group
-#  The group owning gitea and its' files. Default: 'git'
+#   The group owning gitea
 #
 # @param home
-#  Qualified path to the users' home directory. Default: empty
-#
-# Authors
-# -------
-#
-# Jeffrey Clark <h0tw1r3@users.noreply.github.com>
-# Daniel S. Reichenbach <daniel@kogitoapp.com>
-#
-# Copyright
-# ---------
-#
-# Copyright 2022 Jeffrey Clark <https://github.com/h0tw1r3>
-# Copyright 2016-2019 Daniel S. Reichenbach <https://kogitoapp.com>
+#   Qualified path to the user home directory
 #
 class gitea::user (
   Boolean $manage_user   = $gitea::manage_user,

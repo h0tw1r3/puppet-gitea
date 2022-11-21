@@ -34,24 +34,12 @@ including the class:
 include gitea
 ```
 
-## Reference
-
-### Class: `gitea`
+To install a specific version, you must provide the sha256 checksum:
 
 ```puppet
 class { 'gitea':
-    manage_user => true,
-    manage_group => true,
-    manage_home => true,
-    owner => 'git',
-    group => 'git',
-    home => '/home/git',
-    version => '1.1.0',
-    checksum => '59cd3fb52292712bd374a215613d6588122d93ab19d812b8393786172b51d556',
-    checksum_type => 'sha256',
-    manage_service => true,
-    service_epp => 'gitea/systemd.epp',
-    tmpfile_epp => 'gitea/tmpfile.epp',
+  version  => '1.17.0',
+  checksum => 'bc4a8e1f5d5f64d4be2e50c387de08d07c062aecdba2f742c2f61c20accfcc46',
 }
 ```
 

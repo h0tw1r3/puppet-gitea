@@ -1,19 +1,8 @@
-# Class: gitea::config
-# ===========================
+# @summary manages configuration files
 #
-# Applies configuration for `::gitea` class to system.
+# Manages custom api.ini and robots.txt
 #
-# Authors
-# -------
-#
-# Jeffrey Clark <h0tw1r3@users.noreply.github.com>
-# Daniel S. Reichenbach <daniel@kogitoapp.com>
-#
-# Copyright
-# ---------
-#
-# Copyright 2022 Jeffrey Clark <https://github.com/h0tw1r3>
-# Copyright 2016-2019 Daniel S. Reichenbach <https://kogitoapp.com>
+# @api private
 #
 class gitea::config {
   file { [

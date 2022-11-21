@@ -1,19 +1,8 @@
-# Class: gitea::install
-# ===========================
+# @summary download and install gitea
 #
-# Installs gitea, and sets up the directory structure required to run Gitea.
+# Downloads and installs gitea, and manages the required directory structure
 #
-# Authors
-# -------
-#
-# Jeffrey Clark <h0tw1r3@users.noreply.github.com>
-# Daniel S. Reichenbach <daniel@kogitoapp.com>
-#
-# Copyright
-# ---------
-#
-# Copyright 2022 Jeffrey Clark <https://github.com/h0tw1r3>
-# Copyright 2016-2019 Daniel S. Reichenbach <https://kogitoapp.com>
+# @api private
 #
 class gitea::install {
   file { [
