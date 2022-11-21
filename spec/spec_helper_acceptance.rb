@@ -17,6 +17,8 @@ RSpec.configure do |c|
       on host, puppet('module', 'install', 'puppetlabs-stdlib'), acceptable_exit_codes: [0]
       on host, puppet('module', 'install', 'puppetlabs-inifile'), acceptable_exit_codes: [0]
       on host, puppet('module', 'install', 'puppet-archive'), acceptable_exit_codes: [0]
+      on host, puppet('module', 'install', 'puppet-extlib'), acceptable_exit_codes: [0]
+      on host, puppet('module', 'install', 'puppet-systemd'), acceptable_exit_codes: [0]
     end
   end
 end
