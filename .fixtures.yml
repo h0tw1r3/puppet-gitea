@@ -15,5 +15,8 @@ fixtures:
     extlib:
       repo: 'https://github.com/voxpupuli/puppet-extlib.git'
       ref: 'v6.0.0'
+    systemd:
+      repo: 'https://github.com/voxpupuli/puppet-systemd.git'
+      ref: 'v3.10.0'
   symlinks:
     gitea: "#{source_dir}"
