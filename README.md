@@ -5,27 +5,14 @@
 [![Puppet Forge - downloads][forge-shield-dl]][forge-gitea]
 [![Puppet Forge - scores][forge-shield-sc]][forge-gitea]
 
-## Description
-
-A Puppet module for managing [Gitea][gitea] (Git with a cup of tea) settings.
-This module allows you to install and configure Gitea using pre-built binaries
-and does not need external package repositories. You can chose to install Gitea
-with default settings, or customize all settings to your liking.
-
 ## Setup
 
-### What Gitea affects
+This module downloads a pre-built binary from the [Gitea] project releases
+page. No external package repositories are required. You can choose to install
+[Gitea] with default settings, or customize them using the
+`custom_configuration` class parameter.
 
-- `puppet-gitea` depends on
-  - [puppetlabs-stdlib][puppetlabs-stdlib],
-  - [puppetlabs-inifile][puppetlabs-inifile],
-  - [puppet-archive][puppet-archive],
-  - [puppet-extlib][puppet-extlib],
-- it manages a user and group `git`
-- it manages the gitea working directory
-- it install a `gitea` service listening on port `3000`
-
-### Beginning with Gitea
+### Examples
 
 The simplest use case is to rely on defaults. This can be done by simply
 including the class:
@@ -34,7 +21,7 @@ including the class:
 include gitea
 ```
 
-To install a specific version, you must provide the sha256 checksum:
+To install a specific version, you must provide the _sha256_ checksum:
 
 ```puppet
 class { 'gitea':
@@ -43,33 +30,76 @@ class { 'gitea':
 }
 ```
 
-## Limitations
+Custom configuration example:
 
-See [metadata.json](metadata.json) for supported platforms.
-
-## Development
-
-### Running tests
-
-This project contains tests for [rspec-puppet][puppet-rspec].
-
-Quickstart:
-
-```console
-gem install bundler
-bundle install
-bundle exec rake test
+```puppet
+class { 'gitea':
+  custom_configuration => {
+    ''        => {
+      'APP_NAME' => 'Internal Code Projects',
+    },
+    'server'  => {
+      'ROOT_URL' => 'https://example.com/git/',
+    },
+    'ui'      => {
+      'SHOW_USER_EMAIL'       => 'false',
+      'MAX_DISPLAY_FILE_SIZE' => '4194304',
+    },
+    'ui.meta' => {
+      'DESCRIPTION' => 'My self-hosted code project service',
+      'KEYWORDS'    => 'git,self-hosted',
+    },
+    'indexer' => {
+      'REPO_INDEXER_ENABLED' => true,
+    },
+    'cache'   => {
+      'ADAPTER' => 'redis',
+      'HOST'    => 'network=tcp,addr=127.0.0.1:6379,db=0,pool_size=100,idle_timeout=180',
+    },
+    'session' => {
+      'PROVIDER'        => 'redis',
+      'PROVIDER_CONFIG' => 'network=tcp,addr=127.0.0.1:6379,db=0,pool_size=100,idle_timeout=180',
+    },
+  }
+}
 ```
 
-When submitting pull requests, please make sure that module documentation,
-test cases and syntax checks pass.
+If you need to support [custom files], use the `gitea::custom::file` resource:
 
-[gitea]: https://github.com/go-gitea/gitea
-[puppetlabs-stdlib]: https://github.com/puppetlabs/puppetlabs-stdlib
-[puppetlabs-inifile]: https://github.com/puppetlabs/puppetlabs-inifile
-[puppet-archive]: https://github.com/voxpupuli/puppet-archive
-[puppet-extlib]: https://github.com/voxpupuli/puppet-extlib
-[puppet-rspec]: http://rspec-puppet.com/
+```puppet
+gitea::custom::file { 'public/css/custom.css':
+  source => 'puppet:///modules/profile/gitea/custom.css',
+}
+gitea::custom::file { 'public/img/logo.svg':
+  source => 'puppet:///modules/profile/gitea/logo.svg',
+}
+```
+
+## Tests
+
+When submitting pull requests, please make sure that the module documentation,
+test cases, and syntax checks pass.
+
+Use the [PDK] to validate and execute tests:
+
+```console
+pdk validate
+pdk test unit
+```
+
+Use the [PDK] to update the [reference] documentation.
+
+```console
+pdk bundle exec rake strings:generate:reference
+```
+
+## Acknowledgements
+
+lThis module was forked from [kogitoapp/gitea] and _is *NOT* compatible_.
+
+
+[Gitea]: https://github.com/go-gitea/gitea
+[PDK]: https://puppet.com/docs/pdk/2.x/pdk.html
 
 [build-status]: https://travis-ci.org/h0tw1r3/puppet-gitea
 [build-shield]: https://travis-ci.org/h0tw1r3/puppet-gitea.png?branch=main
@@ -77,3 +107,7 @@ test cases and syntax checks pass.
 [forge-shield]: https://img.shields.io/puppetforge/v/h0tw1r3/gitea.svg
 [forge-shield-dl]: https://img.shields.io/puppetforge/dt/h0tw1r3/gitea.svg
 [forge-shield-sc]: https://img.shields.io/puppetforge/f/h0tw1r3/gitea.svg
+
+[kogitoapp/gitea]: https://forge.puppet.com/modules/kogitoapp/gitea
+[reference]: REFERENCE.md
+[custom files]: https://docs.gitea.io/en-us/customizing-gitea/
