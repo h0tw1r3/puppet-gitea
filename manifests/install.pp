@@ -4,7 +4,14 @@
 #
 # @api private
 #
-class gitea::install {
+# @param packages
+#   List of system packages required by Gitea
+#
+class gitea::install (
+  Array[String] $packages,
+) {
+  ensure_packages($packages)
+
   file { [
       $gitea::work_path,
       $gitea::configuration['server']['APP_DATA_PATH'],
@@ -36,8 +43,7 @@ class gitea::install {
   $source_url = "${gitea::base_url}/${gitea::version}/gitea-${gitea::version}-${kernel_down}-${arch}"
   $bin_path = "${gitea::work_path}/gitea"
 
-  package { 'git': }
-  -> archive { 'gitea':
+  archive { 'gitea':
     path          => $bin_path,
     source        => $source_url,
     proxy_server  => $gitea::proxy,

@@ -34,3 +34,8 @@ gitea::default_configuration:
 gitea::service_epp: 'gitea/systemd.epp'
 gitea::tmpfile_epp: 'gitea/tmpfile.epp'
 gitea::robots_txt: ''
+
+gitea::install::packages:
+  - 'curl'
+  - 'git'
+  - 'tar'

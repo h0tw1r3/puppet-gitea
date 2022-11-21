@@ -1,6 +1,0 @@
----
-gitea::dependencies:
-  - 'curl'
-  - 'git'
-  - 'initscripts'
-  - 'tar'
