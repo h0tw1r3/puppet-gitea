@@ -14,8 +14,14 @@ gitea::group: 'git'
 gitea::home: ~
 gitea::proxy: ~
 gitea::base_url: 'https://dl.gitea.io/gitea'
-gitea::version: '1.17.0'
-gitea::checksum: 'bc4a8e1f5d5f64d4be2e50c387de08d07c062aecdba2f742c2f61c20accfcc46'
+gitea::version: '1.17.3'
+gitea::checksum:
+  linux:
+    386: a5e49db7302d63a9184ab8f8deca2752e76f1b257bd260c9f5df9689861acd75
+    amd64: 38c4e1228cd051b785c556bcadc378280d76c285b70e8761cd3f5051aed61b5e
+    arm-5: a6d39952d487cc832e1904e5211afd199060159a803a0214e55ba982ef67996f
+    arm-6: 07ed6c1feaff7e57805bf52a10811941c399b0203cb6b2b4053aa605e0164206
+    arm64: 2092ba617d64c62643c7ca5523ed235a36e9dcb3d9cb948506a39c1ebb5d6598
 gitea::run_path: '/run/gitea'
 gitea::work_path: '/opt/gitea'
 gitea::app_data_path: "%{lookup('gitea::work_path')}/data"

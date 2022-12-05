@@ -83,7 +83,7 @@ class gitea (
   Optional[String] $proxy,
   String $base_url,
   String $version,
-  String $checksum,
+  Optional[Variant[String,Hash]] $checksum,
   String $work_path,
 
   Hash $custom_configuration,

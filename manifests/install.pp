@@ -40,6 +40,12 @@ class gitea::install (
     }
   }
 
+  if $gitea::checksum =~ String {
+    $checksum = $gitea::checksum
+  } else {
+    $checksum = $gitea::checksum[$kernel_down][$arch]
+  }
+
   $source_url = "${gitea::base_url}/${gitea::version}/gitea-${gitea::version}-${kernel_down}-${arch}"
   $bin_path = "${gitea::work_path}/gitea"
 
@@ -47,7 +53,7 @@ class gitea::install (
     path          => $bin_path,
     source        => $source_url,
     proxy_server  => $gitea::proxy,
-    checksum      => $gitea::checksum,
+    checksum      => $checksum,
     checksum_type => 'sha256',
     cleanup       => false,
     extract       => false,

@@ -14,7 +14,6 @@
 
 * `gitea::config`: manages configuration files
 * `gitea::install`: download and install gitea
-* `gitea::packages`: install required system packages
 * `gitea::service`: manage service state
 * `gitea::user`: creates gitea user
 
@@ -128,7 +127,7 @@ Version of gitea to install
 
 ##### <a name="checksum"></a>`checksum`
 
-Data type: `String`
+Data type: `Optional[Variant[String,Hash]]`
 
 Checksum for the release binary
 
