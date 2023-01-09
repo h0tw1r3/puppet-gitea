@@ -20,6 +20,12 @@ class gitea::config {
     'notify'  => Class['gitea::service'],
   }
 
+  file { $gitea_configuration['path']:
+    ensure => file,
+    owner  => $gitea::owner,
+    group  => $gitea::group,
+    mode   => '0640',
+  }
   inifile::create_ini_settings($gitea::configuration, $gitea_configuration)
 
   if $gitea::robots_txt != '' {
