@@ -17,7 +17,7 @@ describe 'gitea', type: :class do
       context 'with all defaults' do
         it { is_expected.to contain_class('gitea') }
         it { is_expected.to compile.with_all_deps }
-        it { is_expected.to contain_class('gitea::user').that_comes_before('Class[gitea::install]') }
+        it { is_expected.to contain_class('gitea::service::user').that_comes_before('Class[gitea::install]') }
         it { is_expected.to contain_class('gitea::install').that_comes_before('Class[gitea::config]') }
         it { is_expected.to contain_class('gitea::install').that_notifies('Class[gitea::service]') }
         it { is_expected.to contain_class('gitea::config').that_notifies('Class[gitea::service]') }
@@ -80,7 +80,7 @@ describe 'gitea', type: :class do
           end
         end
 
-        # gitea::user
+        # gitea::service::user
         it { is_expected.to contain_user('git') }
         it { is_expected.to contain_group('git') }
 

@@ -106,7 +106,7 @@ class gitea (
     deep_merge($base_configuration, $default_configuration),
   $custom_configuration)
 
-  contain gitea::user
+  contain gitea::service::user
   contain gitea::install
   contain gitea::config
 
@@ -118,7 +118,7 @@ class gitea (
     ~> Class['gitea::service']
   }
 
-  Class['gitea::user']
+  Class['gitea::service::user']
   -> Class['gitea::install']
   -> Class['gitea::config']
 }

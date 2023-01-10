@@ -1,4 +1,4 @@
-# @summary creates gitea user
+# @summary creates gitea service user
 #
 # @api private
 #
@@ -11,32 +11,29 @@
 # @param manage_home
 #   Should we manage provisioning the home directory?
 #
-# @param owner
-#   The user owning gitea
+# @param user
+#   The user of gitea service
 #
 # @param group
-#   The group owning gitea
+#   The group of gitea service
 #
 # @param home
 #   Qualified path to the user home directory
 #
-class gitea::user (
+class gitea::service::user (
   Boolean $manage_user   = $gitea::manage_user,
   Boolean $manage_group  = $gitea::manage_group,
   Boolean $manage_home   = $gitea::manage_home,
-  String  $owner         = $gitea::owner,
+  String  $user          = $gitea::owner,
   String  $group         = $gitea::group,
   Optional[String] $home = $gitea::home,
 ) {
-  if ($manage_home) {
-    if $home == undef {
-      $homedir = "/home/${owner}"
-    } else {
-      $homedir = $home
-    }
+  $homedir = ($home =~ Undef) ? {
+    true  => "/home/${user}",
+    false => $home,
   }
 
-  if ($manage_user) {
+  if ($manage_group) {
     group { $group:
       ensure => present,
       system => true,
@@ -44,7 +41,7 @@ class gitea::user (
   }
 
   if ($manage_user) {
-    user { $owner:
+    user { $user:
       ensure     => present,
       gid        => $group,
       home       => $homedir,
