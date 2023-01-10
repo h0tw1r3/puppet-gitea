@@ -48,6 +48,7 @@ class gitea::service::user (
       managehome => $manage_home,
       system     => true,
       require    => Group[$group],
+      notify     => Systemd::Tmpfile['gitea.conf'],
     }
   }
 }
