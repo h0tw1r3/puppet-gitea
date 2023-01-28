@@ -42,8 +42,10 @@ class gitea::install (
 
   if $gitea::checksum =~ String {
     $checksum = $gitea::checksum
+  } elsif ($gitea::checksum =~ Hash and $gitea::version in $gitea::checksum) {
+    $checksum = $gitea::checksum[$gitea::version][$kernel_down][$arch]
   } else {
-    $checksum = $gitea::checksum[$kernel_down][$arch]
+    fail("gitea::checksum required for version ${gitea::version}")
   }
 
   $source_url = "${gitea::base_url}/${gitea::version}/gitea-${gitea::version}-${kernel_down}-${arch}"
