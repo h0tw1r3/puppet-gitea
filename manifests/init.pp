@@ -6,9 +6,24 @@
 # @example Basic usage
 #   include gitea
 #
-# @example Install specific version
+# @example Install current supported release
 #   class { 'gitea':
-#     version  => '1.17.0',
+#     ensure => 'installed',
+#   }
+#
+# @example Install latest release and keep upgraded
+#   class { 'gitea':
+#     ensure => 'latest',
+#   }
+#
+# @example Install specific supported version
+#   class { 'gitea':
+#     ensure   => '1.18.0',
+#   }
+#
+# @example Install specific version not directly supported
+#   class { 'gitea':
+#     ensure   => '1.17.0',
 #     checksum => 'bc4a8e1f5d5f64d4be2e50c387de08d07c062aecdba2f742c2f61c20accfcc46',
 #   }
 #
@@ -38,11 +53,11 @@
 # @param base_url
 #   Download base URL
 #
-# @param version
-#   Version of gitea to install
+# @param ensure 
+#   Version of gitea to install, 'installed', or 'latest'
 #
 # @param checksum
-#   Checksum for the release binary
+#   Checksum for the release binary 
 #
 # @param work_path
 #   Target directory for the gitea installation
@@ -82,8 +97,8 @@ class gitea (
 
   Optional[String] $proxy,
   String $base_url,
-  String $version,
-  Optional[Variant[String,Hash]] $checksum,
+  Variant[Regexp[/\d\.\d\.\d/],Enum['latest','installed']] $ensure,
+  Optional[Variant[String,Hash]] $checksum = undef,
   String $work_path,
 
   Hash $custom_configuration,
@@ -96,6 +111,11 @@ class gitea (
 
   String $robots_txt,
 ) {
+  # custom validation
+  if $ensure in ['latest','installed'] and ($checksum !~ Undef) {
+    fail('must not specify a checksum when ensure is latest or installed')
+  }
+
   $base_configuration = {
     '' => {
       'RUN_USER' => $owner,

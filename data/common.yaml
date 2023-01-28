@@ -14,7 +14,7 @@ gitea::group: 'git'
 gitea::home: ~
 gitea::proxy: ~
 gitea::base_url: 'https://dl.gitea.io/gitea'
-gitea::version: '1.18.3'
+gitea::ensure: 'installed'
 gitea::run_path: '/run/gitea'
 gitea::work_path: '/opt/gitea'
 gitea::app_data_path: "%{lookup('gitea::work_path')}/data"

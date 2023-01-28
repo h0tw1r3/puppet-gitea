@@ -1,4 +1,4 @@
-gitea::checksum:
+gitea::install::checksums:
   1.17.4:
     linux:
       386: f18ebd43e87de83b681149e1802e0650fa29b6e25c4f6e1625899c6709706db3

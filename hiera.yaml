@@ -4,8 +4,8 @@ defaults:
   datadir: data
   data_hash: yaml_data
 hierarchy:
-  - name: "version"
-    path: "version.yaml"
+  - name: "checksums"
+    path: "checksums.yaml"
 
   - name: "OS family"
     path: "os/%{facts.os.family}.yaml"
