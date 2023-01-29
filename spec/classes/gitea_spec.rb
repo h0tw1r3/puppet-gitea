@@ -5,7 +5,7 @@ describe 'gitea', type: :class do
     'file { "foo.rb":
       ensure => present,
       path   => "/etc/tmp",
-      notify => Service["gitea"] }'
+      notify => Class["gitea::service"] }'
   end
 
   on_supported_os.each do |os, facts|
@@ -23,7 +23,7 @@ describe 'gitea', type: :class do
         it { is_expected.to contain_class('gitea::config').that_notifies('Class[gitea::service]') }
         it { is_expected.to contain_class('gitea::service') }
 
-        it { is_expected.to contain_file('foo.rb').that_notifies('Service[gitea]') }
+        it { is_expected.to contain_file('foo.rb').that_notifies('Class[gitea::service]') }
 
         # gitea::install
         it { is_expected.to contain_archive('gitea') }
@@ -83,9 +83,6 @@ describe 'gitea', type: :class do
         # gitea::service::user
         it { is_expected.to contain_user('git') }
         it { is_expected.to contain_group('git') }
-
-        # gitea::service
-        it { is_expected.to contain_service('gitea') }
       end
     end
   end

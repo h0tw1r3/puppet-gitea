@@ -97,8 +97,7 @@ class gitea (
 
   Optional[String] $proxy,
   String $base_url,
-  Variant[Regexp[/\d\.\d\.\d/],Enum['latest','installed']] $ensure,
-  Optional[Variant[String,Hash]] $checksum = undef,
+  Variant[Pattern[/\d+\.\d+\.\d+/],Enum['latest','installed']] $ensure,
   String $work_path,
 
   Hash $custom_configuration,
@@ -110,6 +109,8 @@ class gitea (
   String $run_path,
 
   String $robots_txt,
+
+  Optional[String] $checksum = undef,
 ) {
   # custom validation
   if $ensure in ['latest','installed'] and ($checksum !~ Undef) {

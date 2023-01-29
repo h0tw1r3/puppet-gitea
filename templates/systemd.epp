@@ -1,5 +1,4 @@
-<%- | String $bin_path,
-      String $user,
+<%- | String $user,
       String $group,
       String $work_path,
       String $run_path,
@@ -14,7 +13,7 @@ Restart=on-failure
 User=<%= $user %>
 Group=<%= $group %>
 WorkingDirectory=<%= $work_path %>
-ExecStart=<%= $bin_path %> web --pid <%= $run_path %>/gitea.pid
+ExecStart=<%= $work_path %>/gitea web --pid <%= $run_path %>/gitea.pid
 AmbientCapabilities=CAP_NET_BIND_SERVICE
 Environment=USER=<%= $user %> GITEA_WORK_DIR=<%= $work_path %>
 PIDFile=<%= $run_path %>/gitea.pid

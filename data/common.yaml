@@ -3,8 +3,6 @@ lookup_options:
   gitea::custom_configuration:
     merge: deep
 
-gitea::dependencies_ensure: 'present'
-gitea::dependencies: []
 gitea::manage_service: true
 gitea::manage_user: true
 gitea::manage_group: true
