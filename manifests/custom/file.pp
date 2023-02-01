@@ -21,8 +21,10 @@
 #   File content
 #
 define gitea::custom::file (
-  Variant[String,Undef] $source  = undef,
-  Variant[String,Undef] $content = undef,
+  Optional[Variant[String,Boolean]] $ensure  = undef,
+  Variant[String,Undef]             $source  = undef,
+  Variant[String,Undef]             $content = undef,
+  Variant[Boolean,Enum['remote']]   $recurse = false,
 ) {
   require gitea::config
 
@@ -41,10 +43,12 @@ define gitea::custom::file (
   }
 
   file { "${custom_path}${title}":
+    ensure  => $ensure,
     source  => $source,
     content => $content,
     owner   => $gitea::owner,
     group   => $gitea::group,
+    recurse => $recurse,
     notify  => Class['gitea::service'],
   }
 }
