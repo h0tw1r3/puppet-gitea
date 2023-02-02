@@ -45,8 +45,3 @@
 /.vscode/
 /.sync.yml
 /.devcontainer/
-/fetch_checksums.sh
-/.github
-/pdk.yaml
-/.gitjournal.toml
-/.pmtignore
