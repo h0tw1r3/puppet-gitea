@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release 2.0.0 (2023-02-02)
+
+**Features**
+
+- `ensure` parameter accepts `latest`
+  performs automatic incremental upgrades
+
+**Breaking Changes**
+
+- `version` class parameter changed to `ensure`
+
 ## Release 1.3.0 (2023-01-10)
 
 **Features**
