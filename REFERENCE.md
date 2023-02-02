@@ -15,11 +15,16 @@
 * `gitea::config`: manages configuration files
 * `gitea::install`: download and install gitea
 * `gitea::service`: manage service state
-* `gitea::user`: creates gitea user
+* `gitea::service::user`: creates gitea service user
 
 ### Defined types
 
-* [`gitea::custom::file`](#giteacustomfile): gitea custom file
+* [`gitea::custom::file`](#gitea--custom--file): gitea custom file
+
+### Functions
+
+* [`gitea::archive_resource`](#gitea--archive_resource)
+* [`gitea::installed_version`](#gitea--installed_version): https://github.com/puppetlabs/puppet-specifications/blob/master/language/func-api.md#the-4x-api
 
 ## Classes
 
@@ -39,11 +44,35 @@ Review module hiera for default parameter values.
 include gitea
 ```
 
-##### Install specific version
+##### Install current supported release
 
 ```puppet
 class { 'gitea':
-  version  => '1.17.0',
+  ensure => 'installed',
+}
+```
+
+##### Install latest release and keep upgraded
+
+```puppet
+class { 'gitea':
+  ensure => 'latest',
+}
+```
+
+##### Install specific supported version
+
+```puppet
+class { 'gitea':
+  ensure   => '1.18.0',
+}
+```
+
+##### Install specific version not directly supported
+
+```puppet
+class { 'gitea':
+  ensure   => '1.17.0',
   checksum => 'bc4a8e1f5d5f64d4be2e50c387de08d07c062aecdba2f742c2f61c20accfcc46',
 }
 ```
@@ -52,92 +81,94 @@ class { 'gitea':
 
 The following parameters are available in the `gitea` class:
 
-* [`manage_user`](#manage_user)
-* [`manage_group`](#manage_group)
-* [`manage_home`](#manage_home)
-* [`owner`](#owner)
-* [`group`](#group)
-* [`home`](#home)
-* [`proxy`](#proxy)
-* [`base_url`](#base_url)
-* [`version`](#version)
-* [`checksum`](#checksum)
-* [`work_path`](#work_path)
-* [`default_configuration`](#default_configuration)
-* [`custom_configuration`](#custom_configuration)
-* [`manage_service`](#manage_service)
-* [`service_epp`](#service_epp)
-* [`tmpfile_epp`](#tmpfile_epp)
-* [`robots_txt`](#robots_txt)
-* [`run_path`](#run_path)
+* [`manage_user`](#-gitea--manage_user)
+* [`manage_group`](#-gitea--manage_group)
+* [`manage_home`](#-gitea--manage_home)
+* [`owner`](#-gitea--owner)
+* [`group`](#-gitea--group)
+* [`home`](#-gitea--home)
+* [`proxy`](#-gitea--proxy)
+* [`base_url`](#-gitea--base_url)
+* [`ensure`](#-gitea--ensure)
+* [`checksum`](#-gitea--checksum)
+* [`work_path`](#-gitea--work_path)
+* [`default_configuration`](#-gitea--default_configuration)
+* [`custom_configuration`](#-gitea--custom_configuration)
+* [`manage_service`](#-gitea--manage_service)
+* [`service_epp`](#-gitea--service_epp)
+* [`tmpfile_epp`](#-gitea--tmpfile_epp)
+* [`robots_txt`](#-gitea--robots_txt)
+* [`run_path`](#-gitea--run_path)
 
-##### <a name="manage_user"></a>`manage_user`
+##### <a name="-gitea--manage_user"></a>`manage_user`
 
 Data type: `Boolean`
 
 Should we manage provisioning the user?
 
-##### <a name="manage_group"></a>`manage_group`
+##### <a name="-gitea--manage_group"></a>`manage_group`
 
 Data type: `Boolean`
 
 Should we manage provisioning the group?
 
-##### <a name="manage_home"></a>`manage_home`
+##### <a name="-gitea--manage_home"></a>`manage_home`
 
 Data type: `Boolean`
 
 Should we manage provisioning the home directory?
 
-##### <a name="owner"></a>`owner`
+##### <a name="-gitea--owner"></a>`owner`
 
 Data type: `String`
 
 The user owning gitea
 
-##### <a name="group"></a>`group`
+##### <a name="-gitea--group"></a>`group`
 
 Data type: `String`
 
 The group owning gitea
 
-##### <a name="home"></a>`home`
+##### <a name="-gitea--home"></a>`home`
 
 Data type: `Optional[String]`
 
 Qualified path to the user home directory
 
-##### <a name="proxy"></a>`proxy`
+##### <a name="-gitea--proxy"></a>`proxy`
 
 Data type: `Optional[String]`
 
 Download gitea release via specified proxy
 
-##### <a name="base_url"></a>`base_url`
+##### <a name="-gitea--base_url"></a>`base_url`
 
 Data type: `String`
 
 Download base URL
 
-##### <a name="version"></a>`version`
+##### <a name="-gitea--ensure"></a>`ensure`
 
-Data type: `String`
+Data type: `Variant[Pattern[/\d+\.\d+\.\d+/],Enum['latest','installed']]`
 
-Version of gitea to install
+Version of gitea to install, 'installed', or 'latest'
 
-##### <a name="checksum"></a>`checksum`
+##### <a name="-gitea--checksum"></a>`checksum`
 
-Data type: `Optional[Variant[String,Hash]]`
+Data type: `Optional[String]`
 
 Checksum for the release binary
 
-##### <a name="work_path"></a>`work_path`
+Default value: `undef`
+
+##### <a name="-gitea--work_path"></a>`work_path`
 
 Data type: `String`
 
 Target directory for the gitea installation
 
-##### <a name="default_configuration"></a>`default_configuration`
+##### <a name="-gitea--default_configuration"></a>`default_configuration`
 
 Data type: `Hash`
 
@@ -146,38 +177,38 @@ provided (see hiera). Generally this parameter should NOT be provided.
 Instead set the custom_configuration parameter to override built-in
 defaults.
 
-##### <a name="custom_configuration"></a>`custom_configuration`
+##### <a name="-gitea--custom_configuration"></a>`custom_configuration`
 
 Data type: `Hash`
 
 Override default configuration for configuring Gitea.
 The value is merged with the `default_configuration` parameter value.
 
-##### <a name="manage_service"></a>`manage_service`
+##### <a name="-gitea--manage_service"></a>`manage_service`
 
 Data type: `Boolean`
 
 Should we manage a service definition for Gitea?
 
-##### <a name="service_epp"></a>`service_epp`
+##### <a name="-gitea--service_epp"></a>`service_epp`
 
 Data type: `String`
 
 Path to service epp template file
 
-##### <a name="tmpfile_epp"></a>`tmpfile_epp`
+##### <a name="-gitea--tmpfile_epp"></a>`tmpfile_epp`
 
 Data type: `String`
 
 Path to tmpfile epp template file
 
-##### <a name="robots_txt"></a>`robots_txt`
+##### <a name="-gitea--robots_txt"></a>`robots_txt`
 
 Data type: `String`
 
 Allows to provide a http://www.robotstxt.org/ file to restrict crawling
 
-##### <a name="run_path"></a>`run_path`
+##### <a name="-gitea--run_path"></a>`run_path`
 
 Data type: `String`
 
@@ -185,7 +216,7 @@ Path to service runtime path
 
 ## Defined types
 
-### <a name="giteacustomfile"></a>`gitea::custom::file`
+### <a name="gitea--custom--file"></a>`gitea::custom::file`
 
 Manage files in the Gitea `CustomPath` folder
 
@@ -214,22 +245,102 @@ gitea::custom::file { 'public/img/logo.svg':
 
 The following parameters are available in the `gitea::custom::file` defined type:
 
-* [`source`](#source)
-* [`content`](#content)
+* [`ensure`](#-gitea--custom--file--ensure)
+* [`source`](#-gitea--custom--file--source)
+* [`content`](#-gitea--custom--file--content)
+* [`recurse`](#-gitea--custom--file--recurse)
 
-##### <a name="source"></a>`source`
+##### <a name="-gitea--custom--file--ensure"></a>`ensure`
+
+Data type: `Optional[Variant[String,Boolean]]`
+
+Passed to File resource
+
+Default value: `undef`
+
+##### <a name="-gitea--custom--file--source"></a>`source`
 
 Data type: `Variant[String,Undef]`
 
-File source
+Passed to File resource
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="content"></a>`content`
+##### <a name="-gitea--custom--file--content"></a>`content`
 
 Data type: `Variant[String,Undef]`
 
-File content
+Passed to File resource
 
-Default value: ``undef``
+Default value: `undef`
+
+##### <a name="-gitea--custom--file--recurse"></a>`recurse`
+
+Data type: `Variant[Boolean,Enum['remote']]`
+
+Passed to File resource
+
+Default value: `false`
+
+## Functions
+
+### <a name="gitea--archive_resource"></a>`gitea::archive_resource`
+
+Type: Ruby 4.x API
+
+The gitea::archive_resource function.
+
+#### `gitea::archive_resource(String $gitea_bin, String $base_url, Hash $checksums, String $version, Optional[Variant[String,Undef]] $checksum_value)`
+
+The gitea::archive_resource function.
+
+Returns: `Hash`
+
+##### `gitea_bin`
+
+Data type: `String`
+
+
+
+##### `base_url`
+
+Data type: `String`
+
+
+
+##### `checksums`
+
+Data type: `Hash`
+
+
+
+##### `version`
+
+Data type: `String`
+
+
+
+##### `checksum_value`
+
+Data type: `Optional[Variant[String,Undef]]`
+
+
+
+### <a name="gitea--installed_version"></a>`gitea::installed_version`
+
+Type: Ruby 4.x API
+
+https://github.com/puppetlabs/puppet-specifications/blob/master/language/func-api.md#the-4x-api
+
+#### `gitea::installed_version(String $a)`
+
+https://github.com/puppetlabs/puppet-specifications/blob/master/language/func-api.md#the-4x-api
+
+Returns: `Variant[String,Undef]`
+
+##### `a`
+
+Data type: `String`
+
+
 

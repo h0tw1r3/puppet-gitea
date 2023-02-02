@@ -14,11 +14,17 @@
 #     source => 'puppet:///modules/profile/gitea/logo.svg',
 #   }
 #
+# @param ensure
+#   Passed to File resource
+#
 # @param source
-#   File source
+#   Passed to File resource
 #
 # @param content
-#   File content
+#   Passed to File resource
+#
+# @param recurse
+#   Passed to File resource
 #
 define gitea::custom::file (
   Optional[Variant[String,Boolean]] $ensure  = undef,
