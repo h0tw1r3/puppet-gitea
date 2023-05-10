@@ -39,13 +39,8 @@
 /rakelib/
 /.rspec
 /.rubocop.yml
-/.travis.yml
 /.yardopts
 /spec/
 /.vscode/
 /.sync.yml
 /.devcontainer/
-/.git*
-/pdk.yaml
-/.pmtignore
-/fetch_checksums.sh
