@@ -4,7 +4,7 @@ URL="https://dl.gitea.io/gitea"
 VERSION="${VERSION:-}"
 
 if [ -z "${VERSION}" ] ; then
-  if ! VERSION=$(curl -Ss ${URL}/version.json | jq --raw-output .latest.version) ; then
+  if ! VERSION=$(curl -LSs ${URL}/version.json | jq --raw-output .latest.version) ; then
      echo "Error fetching latest version information" 1>&2
      exit 2
   fi
@@ -22,7 +22,7 @@ for KA in "${!KAS[@]}" ; do
     echo "    ${KA}:"
     for A in "${AS[@]}" ; do
         echo -n "      ${A}: "
-        curl -Ss ${URL}/${VERSION}/gitea-${VERSION}-${KA}-${A}.sha256 | cut -d' ' -f1
+        curl -LSs ${URL}/${VERSION}/gitea-${VERSION}-${KA}-${A}.sha256 | cut -d' ' -f1
     done
 done
 
