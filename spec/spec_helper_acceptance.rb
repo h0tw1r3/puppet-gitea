@@ -1,6 +1,9 @@
-require 'beaker-rspec'
+# frozen_string_literal: true
 
-install_puppet_agent_on hosts, {} unless ENV['BEAKER_provision'] == 'no'
+require 'puppet_litmus'
+require 'spec_helper_acceptance_local' if File.file?(File.join(File.dirname(__FILE__), 'spec_helper_acceptance_local.rb'))
+
+PuppetLitmus.configure!
 
 RSpec.configure do |c|
   # Project root

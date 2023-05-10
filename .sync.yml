@@ -1,0 +1,17 @@
+---
+appveyor.yml:
+  delete: true
+.travis.yml:
+  delete: true
+.gitlab-ci.yml:
+  delete: true
+.pdkignore:
+  paths:
+    - /.*.yml
+    - /pdk.yaml
+    - /.pmtignore
+    - /fetch_checksums.sh
+    - /.git*
+Rakefile:
+  default_disabled_lint_checks:
+    - '140chars'
