@@ -12,6 +12,8 @@ appveyor.yml:
     - /.pmtignore
     - /fetch_checksums.sh
     - /.git*
+    - /.editorconfig
+    - /provision.yaml
 Rakefile:
   default_disabled_lint_checks:
     - '140chars'
