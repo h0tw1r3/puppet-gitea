@@ -11,7 +11,7 @@ task :acceptance, [:group, :tag] do |_task, args|
   Rake::Task['spec_prep'].invoke
   Rake::Task['litmus:provision_list'].invoke args[:group]
   Rake::Task['litmus:install_agent'].invoke
-  Rake::Task['litmus:install_module'].invoke
+  Rake::Task['litmus:install_modules_from_fixtures'].invoke
   Rake::Task['litmus:acceptance:parallel'].invoke args[:tag]
 end
 
@@ -31,6 +31,14 @@ namespace :litmus do
       puts "Running task #{_atask.to_s}"
       _atask.invoke(*args)
     end
+  end
+
+  desc 'install all fixture modules'
+  task :install_modules_from_fixtures, [:resolve_dependencies] do |_task, args|
+    args.with_defaults(resolve_dependencies: false)
+
+    Rake::Task['spec_prep'].invoke
+    Rake::Task['litmus:install_modules_from_directory'].invoke(nil, nil, nil, !args[:resolve_dependencies])
   end
 end
 
