@@ -44,6 +44,10 @@ describe 'gitea', type: :class do
         # gitea::config
         it { is_expected.to contain_file('/opt/gitea/custom') }
         it { is_expected.to contain_file('/opt/gitea/custom/conf') }
+        it {
+          is_expected.to contain_file('/opt/gitea/custom/conf/app.ini')
+            .with_mode('0600')
+        }
         it do
           config_path = '/opt/gitea/custom/conf/app.ini'
           config_expect = {
