@@ -23,8 +23,9 @@
 
 ### Functions
 
-* [`gitea::archive_resource`](#giteaarchive_resource)
-* [`gitea::installed_version`](#giteainstalled_version): https://github.com/puppetlabs/puppet-specifications/blob/master/language/func-api.md#the-4x-api
+* [`gitea::archive_resource`](#giteaarchive_resource): Returns source, checksum, and checksum_type params for downloading a gitea
+release with the archive resource
+* [`gitea::installed_version`](#giteainstalled_version): Returns the installed gitea version
 
 ## Classes
 
@@ -288,7 +289,8 @@ Default value: ``false``
 
 Type: Ruby 4.x API
 
-The gitea::archive_resource function.
+Returns source, checksum, and checksum_type params for downloading a gitea
+release with the archive resource
 
 #### `gitea::archive_resource(String $gitea_bin, String $base_url, Hash $checksums, String $version, Optional[Variant[String,Undef]] $checksum_value)`
 
@@ -330,11 +332,11 @@ Data type: `Optional[Variant[String,Undef]]`
 
 Type: Ruby 4.x API
 
-https://github.com/puppetlabs/puppet-specifications/blob/master/language/func-api.md#the-4x-api
+Returns the installed gitea version
 
 #### `gitea::installed_version(String $a)`
 
-https://github.com/puppetlabs/puppet-specifications/blob/master/language/func-api.md#the-4x-api
+The gitea::installed_version function.
 
 Returns: `Variant[String,Undef]`
 

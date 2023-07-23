@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-# https://github.com/puppetlabs/puppet-specifications/blob/master/language/func-api.md#the-4x-api
+# @summary
+#   Returns the installed gitea version
 Puppet::Functions.create_function(:"gitea::installed_version") do
   dispatch :installed_version do
     param 'String', :a

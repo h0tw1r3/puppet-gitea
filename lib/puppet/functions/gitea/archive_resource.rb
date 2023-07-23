@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+# @summary
+#   Returns source, checksum, and checksum_type params for downloading a gitea
+#   release with the archive resource
 Puppet::Functions.create_function(:"gitea::archive_resource", Puppet::Functions::InternalFunction) do
   dispatch :archive_resource do
     scope_param
