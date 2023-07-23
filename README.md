@@ -16,14 +16,15 @@ page. No external package repositories are required. You can choose to install
 
 ### Examples
 
-The simplest use case is to rely on defaults. This can be done by simply
-including the class:
+The simplest use case is to rely on defaults, which will install the latest
+tested version in `/opt/gitea`.
 
 ```puppet
 include gitea
 ```
 
-To install a specific version, you must provide the _sha256_ checksum:
+To install a version that has not been tested with this module, you must
+provide the release _sha256_ checksum:
 
 ```puppet
 class { 'gitea':
@@ -32,7 +33,13 @@ class { 'gitea':
 }
 ```
 
-Custom configuration example:
+To customize the [Gitea] configuration, use the `custom_configuration` parameter
+(merged with defaults in [common.yaml]).
+
+Refer to Gitea's [Config Cheat Sheet] for most settings and defaults.
+Each section in the cheat sheet is labeled by a human name and the
+**config section** in parentheses. The _config section_ is a top level key
+of the `custom_configuration` hash, except _DEFAULT_ which is an empty string.
 
 ```puppet
 class { 'gitea':
@@ -66,11 +73,15 @@ class { 'gitea':
 }
 ```
 
-If you need to support [custom files], use the `gitea::custom::file` resource:
+[Custom files] allow you to add themes, override built-in templates, or serve
+additional files.
+
+Use the `gitea::custom::file` resource to manage files in Gitea's _custom_
+directory. Subdirectories are automatically created for you.
 
 ```puppet
 gitea::custom::file { 'public/css/custom.css':
-  source => 'puppet:///modules/profile/gitea/custom.css',
+  content => file('profile/gitea/custom.css'),
 }
 gitea::custom::file { 'public/img/logo.svg':
   source => 'puppet:///modules/profile/gitea/logo.svg',
@@ -82,11 +93,17 @@ gitea::custom::file { 'public/img/logo.svg':
 When submitting pull requests, please make sure that the module documentation,
 test cases, and syntax checks pass.
 
-Use the [PDK] to validate and execute tests:
+Use the [PDK] to validate and execute unit tests:
 
 ```console
 pdk validate
 pdk test unit
+```
+
+Use the [PDK] to execute acceptance tests (__requires docker__):
+
+```console
+pdk bundle exec rake acceptance
 ```
 
 Use the [PDK] to update the [reference] documentation.
@@ -117,4 +134,6 @@ This module was forked from [kogitoapp/gitea] and _is *NOT* compatible_.
 
 [kogitoapp/gitea]: https://forge.puppet.com/modules/kogitoapp/gitea
 [reference]: REFERENCE.md
-[custom files]: https://docs.gitea.io/en-us/customizing-gitea/
+[Custom files]: https://docs.gitea.io/en-us/customizing-gitea/
+[common.yaml]: data/common.yaml
+[Config Cheat Sheet]: https://docs.gitea.com/next/administration/config-cheat-sheet
