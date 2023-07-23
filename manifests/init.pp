@@ -137,6 +137,12 @@ class gitea (
     ~> Class['gitea::service']
     Class['gitea::install']
     ~> Class['gitea::service']
+
+    Gitea::Custom::File <||>
+    ~> Class['gitea::service']
+  } else {
+    Class['gitea::config']
+    -> Gitea::Custom::File <||>
   }
 
   Class['gitea::service::user']

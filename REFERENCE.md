@@ -253,7 +253,7 @@ The following parameters are available in the `gitea::custom::file` defined type
 
 ##### <a name="ensure"></a>`ensure`
 
-Data type: `Optional[Variant[String,Boolean]]`
+Data type: `Optional[Enum['file','absent']]`
 
 Passed to File resource
 

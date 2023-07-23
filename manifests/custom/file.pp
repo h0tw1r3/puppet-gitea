@@ -27,22 +27,28 @@
 #   Passed to File resource
 #
 define gitea::custom::file (
-  Optional[Variant[String,Boolean]] $ensure  = undef,
-  Variant[String,Undef]             $source  = undef,
-  Variant[String,Undef]             $content = undef,
-  Variant[Boolean,Enum['remote']]   $recurse = false,
+  Optional[Enum['file','absent']] $ensure  = undef,
+  Variant[String,Undef]           $source  = undef,
+  Variant[String,Undef]           $content = undef,
+  Variant[Boolean,Enum['remote']] $recurse = false,
 ) {
-  require gitea::config
+  if $ensure != 'absent' and $source.empty and $content.empty {
+    fail("gitea::custom::file[${name}] source or content required")
+  }
 
-  $custom_path = "${gitea::work_path}/custom/"
+  $owner = getvar('gitea.owner', lookup('gitea::owner'))
+  $group = getvar('gitea.owner', lookup('gitea::group'))
+  $custom_path = sprintf('%s/custom/', getvar('gitea.work_path', lookup('gitea::work_path')))
 
-  extlib::dir_split(dirname("${custom_path}${title}")).each |$path| {
-    if $path.length > $custom_path.length {
-      unless defined(File[$path]) {
-        file { $path:
-          ensure => directory,
-          owner  => $gitea::owner,
-          group  => $gitea::group,
+  if $ensure != 'absent' {
+    extlib::dir_split(dirname("${custom_path}${title}")).each |$path| {
+      if $path.length > $custom_path.length {
+        unless defined(File[$path]) {
+          ensure_resource('file', $path, {
+              ensure => directory,
+              owner  => $owner,
+              group  => $group,
+          })
         }
       }
     }
@@ -52,9 +58,8 @@ define gitea::custom::file (
     ensure  => $ensure,
     source  => $source,
     content => $content,
-    owner   => $gitea::owner,
-    group   => $gitea::group,
+    owner   => $owner,
+    group   => $group,
     recurse => $recurse,
-    notify  => Class['gitea::service'],
   }
 }
