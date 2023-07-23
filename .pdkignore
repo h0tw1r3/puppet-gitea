@@ -46,3 +46,5 @@
 /.pmtignore
 /fetch_checksums.sh
 /.git*
+/.editorconfig
+/provision.yaml

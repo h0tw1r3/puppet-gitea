@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release 3.0.0 (2023-07-23)
+
+**Features**
+
+- Gitea 1.20+ support
+
+**Fixes**
+
+- Idempotency on install
+
+**Breaking Changes**
+
+- Drop support for Puppet 6
+
 ## Release 2.0.0 (2023-02-02)
 
 **Features**
