@@ -24,7 +24,7 @@ class gitea::config {
     ensure => file,
     owner  => $gitea::owner,
     group  => $gitea::group,
-    mode   => '0640',
+    mode   => '0600',
   }
   inifile::create_ini_settings($gitea::configuration, $gitea_configuration)
 
