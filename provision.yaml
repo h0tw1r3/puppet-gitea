@@ -3,3 +3,20 @@ default:
   provisioner: docker
   images:
     - litmusimage/ubuntu:20.04
+yum:
+  provisioner: docker
+  images:
+    - litmusimage/rockylinux:8
+apt:
+  provisioner: docker
+  images:
+    - litmusimage/debian:11
+ci:
+  provisioner: docker
+  images:
+    - litmusimage/rockylinux:8
+    - litmusimage/almalinux:8
+    - litmusimage/debian:10
+    - litmusimage/debian:11
+    - litmusimage/ubuntu:20.04
+    - litmusimage/ubuntu:22.04
