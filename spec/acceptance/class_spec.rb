@@ -2,10 +2,10 @@ require 'spec_helper_acceptance'
 
 describe 'gitea class' do
   context 'with default parameters' do
-    let(:manifest) do
-      <<-PP
+    let(:pp) do
+      <<-MANIFEST
       class { 'gitea': }
-      PP
+      MANIFEST
     end
 
     it 'behaves idempotently' do
@@ -44,20 +44,13 @@ describe 'gitea class' do
       it { is_expected.to be_directory }
     end
 
-    describe file('/var/log/gitea') do
-      it { is_expected.to be_directory }
-    end
-
     describe file('/opt/gitea/gitea') do
       it { is_expected.to be_file }
     end
 
-    describe file('/var/git') do
-      it { is_expected.to be_directory }
-    end
-
-    describe file('/lib/systemd/system/gitea.service') do
-      it { is_expected.to be_file }
+    describe service('gitea') do
+      it { is_expected.to be_running }
+      it { is_expected.to be_enabled }
     end
 
     describe port(3000) do
