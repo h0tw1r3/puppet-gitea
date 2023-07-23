@@ -1,7 +1,6 @@
 # puppet-gitea
 
 [![Build Status][workflow-ci-badge]][workflow-ci]
-[![Release Status][workflow-release-badge]][workflow-release]
 [![Puppet Forge][forge-badge]][forge-gitea]
 [![Puppet Forge - downloads][forge-badge-dl]][forge-gitea]
 [![Puppet Forge - scores][forge-badge-sc]][forge-gitea]

@@ -53,8 +53,9 @@ describe 'gitea class' do
       it { is_expected.to be_enabled }
     end
 
-    describe port(3000) do
-      it { is_expected.to be_listening }
-    end
+    # FIXME: not working on rhel litmusimages (no ss command?)
+    # describe port(3000) do
+    #   it { is_expected.to be_listening }
+    # end
   end
 end
