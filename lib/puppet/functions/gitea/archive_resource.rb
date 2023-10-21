@@ -36,7 +36,7 @@ Puppet::Functions.create_function(:"gitea::archive_resource", Puppet::Functions:
 
     if version == 'latest'
       version = next_version
-      Puppet.notice("upgrading gitea v#{installed_version} to v#{next_version}")
+      Puppet.notice("upgrading gitea v#{installed_version} to v#{next_version}") if installed_version != version
     elsif version == 'installed'
       version = installed_version || next_version
     end
