@@ -26,8 +26,11 @@ gitea::default_configuration:
     LOG_SQL: 'false'
   security:
     INSTALL_LOCK: 'true'
+  actions:
+    ENABLED: 'true'
+    DEFAULT_ACTIONS_URL: 'self'
   log:
-    DISABLE_ROUTER_LOG: 'true'
+    logger.router.MODE: ~
 gitea::custom_configuration: {}
 gitea::service_epp: 'gitea/systemd.epp'
 gitea::tmpfile_epp: 'gitea/tmpfile.epp'

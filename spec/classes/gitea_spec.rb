@@ -94,8 +94,12 @@ describe 'gitea', type: :class do
         'DB_TYPE' => 'sqlite3',
         'LOG_SQL' => 'false'
       },
+      'actions' => {
+        'ENABLED' => 'true',
+        'DEFAULT_ACTIONS_URL' => 'self'
+      },
       'log' => {
-        'DISABLE_ROUTER_LOG' => 'true'
+        'logger.router.MODE' => nil
       },
       'repository' => {
         'ROOT' => '/opt/gitea/data/gitea-repositories'
