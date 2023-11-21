@@ -16,7 +16,8 @@ Puppet::Functions.create_function(:"gitea::archive_resource", Puppet::Functions:
 
   def archive_resource(scope, gitea_bin, base_url, checksums, version, checksum_value = nil)
     versions = checksums.keys.sort_by { |v| Gem::Version.new(v) }
-    next_version = versions[-1]
+    installed_version = scope.call_function('gitea::installed_version', gitea_bin)
+
     kernel = scope['facts']['kernel'].downcase
     os_arch = scope['facts']['os']['architecture']
     arch = case os_arch
@@ -25,20 +26,21 @@ Puppet::Functions.create_function(:"gitea::archive_resource", Puppet::Functions:
            when 'x86' then '386'
            else os_arch
            end
-    installed_version = scope.call_function('gitea::installed_version', gitea_bin)
-
-    unless installed_version.nil? || installed_version.empty?
-      find_next_version = versions.select { |v| (Gem::Version.new(v) > Gem::Version.new(installed_version)) }.detect.first
-      unless find_next_version.nil? || find_next_version.empty?
-        next_version = find_next_version
-      end
-    end
 
     if version == 'latest'
-      version = next_version
-      Puppet.notice("upgrading gitea v#{installed_version} to v#{next_version}") if installed_version != version
+      if installed_version.nil? || installed_version.empty?
+        version = versions[1]
+      else
+        next_version = versions.select { |v| (Gem::Version.new(v) > Gem::Version.new(installed_version)) }.detect.first
+        if next_version.nil? || next_version.empty?
+          version = installed_version
+        else
+          version = next_version
+          Puppet.notice("upgrading gitea v#{installed_version} to v#{next_version}") if installed_version != version
+        end
+      end
     elsif version == 'installed'
-      version = installed_version || next_version
+      version = installed_version || versions[-1]
     end
 
     if checksum_value.nil? || checksum_value.empty?
