@@ -7,12 +7,17 @@ litmus_cleanup = false
 desc "Provision machines, run acceptance tests, and tear down"
 task :acceptance, [:group, :tag] do |_task, args|
   args.with_defaults(group: 'default', tag: nil)
-  litmus_cleanup = true
+  litmus_cleanup = (ENV.fetch('LITMUS_teardown', true).to_s.downcase.match?(%r{(true|auto)}))
   Rake::Task['spec_prep'].invoke
   Rake::Task['litmus:provision_list'].invoke args[:group]
   Rake::Task['litmus:install_agent'].invoke
   Rake::Task['litmus:install_modules_from_fixtures'].invoke
-  Rake::Task['litmus:acceptance:parallel'].invoke args[:tag]
+  begin
+    Rake::Task['litmus:acceptance:parallel'].invoke args[:tag]
+  rescue
+    litmus_cleanup = false if ENV.fetch('LITMUS_teardown', '').downcase == 'auto'
+    raise
+  end
 end
 
 task :acceptance_cleanup do
