@@ -87,6 +87,7 @@ The following parameters are available in the `gitea` class:
 * [`manage_home`](#manage_home)
 * [`owner`](#owner)
 * [`group`](#group)
+* [`umask`](#umask)
 * [`home`](#home)
 * [`proxy`](#proxy)
 * [`base_url`](#base_url)
@@ -130,6 +131,12 @@ The user owning gitea
 Data type: `String`
 
 The group owning gitea
+
+##### <a name="umask"></a>`umask`
+
+Data type: `Pattern[/[0-7]{4}/]`
+
+UMask of service process
 
 ##### <a name="home"></a>`home`
 

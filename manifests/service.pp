@@ -21,6 +21,7 @@ class gitea::service {
     content => epp($gitea::service_epp, {
         user      => $gitea::owner,
         group     => $gitea::group,
+        umask     => $gitea::umask,
         run_path  => $gitea::run_path,
         work_path => $gitea::work_path,
     }),

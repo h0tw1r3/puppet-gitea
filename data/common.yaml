@@ -9,6 +9,7 @@ gitea::manage_group: true
 gitea::manage_home: true
 gitea::owner: 'git'
 gitea::group: 'git'
+gitea::umask: '0027'
 gitea::home: ~
 gitea::proxy: ~
 gitea::base_url: 'https://dl.gitea.io/gitea'

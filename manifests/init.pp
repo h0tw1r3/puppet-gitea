@@ -44,6 +44,9 @@
 # @param group
 #   The group owning gitea
 #
+# @param umask
+#   UMask of service process
+#
 # @param home
 #   Qualified path to the user home directory
 #
@@ -93,6 +96,7 @@ class gitea (
   Boolean $manage_home,
   String $owner,
   String $group,
+  Pattern[/[0-7]{4}/] $umask,
   Optional[String] $home,
 
   Optional[String] $proxy,
