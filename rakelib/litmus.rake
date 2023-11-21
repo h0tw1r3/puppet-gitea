@@ -46,11 +46,16 @@ end
 task :patch_docker_inventory do
   require 'yaml'
   require 'uri'
-  hostname = if ENV.key? 'DOCKER_HOST'
-               URI.parse(ENV['DOCKER_HOST']).host || ENV['DOCKER_HOST']
-             else
-               'localhost'
-             end
+
+  hostname = (ENV['DOCKER_HOST'].nil? || ENV['DOCKER_HOST'].empty?) ? 'localhost' : URI.parse(ENV['DOCKER_HOST']).host || ENV['DOCKER_HOST']
+  begin
+    docker_context = JSON.parse(run_local_command('docker context inspect'))[0]
+    docker_uri = URI.parse(docker_context['Endpoints']['docker']['Host'])
+    hostname = docker_uri.host unless docker_uri.host.nil? || docker_uri.host.empty?
+  rescue RuntimeError
+    # old clients
+  end
+
   if hostname != 'localhost'
     inventory_fn = "#{__dir__}/../spec/fixtures/litmus_inventory.yaml"
     data = YAML.load_file(inventory_fn)
