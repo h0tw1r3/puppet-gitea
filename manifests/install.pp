@@ -31,7 +31,7 @@ class gitea::install (
   $vars = Deferred('gitea::archive_resource', [$bin_path, $gitea::base_url, $checksums, $gitea::ensure, $gitea::checksum])
 
   archive { 'gitea':
-    path          => $bin_path,
+    path          => "${bin_path}.stage",
     source        => Deferred('inline_epp', ['<%= $source %>', $vars]),
     proxy_server  => $gitea::proxy,
     checksum      => Deferred('inline_epp', ['<%= $checksum %>', $vars]),
@@ -39,7 +39,27 @@ class gitea::install (
     cleanup       => false,
     extract       => false,
   }
-  -> file { $bin_path:
+  -> file { "${bin_path}.stage":
     mode => '0755',
+  }
+  # basic check to ensure the updated release executes
+  -> exec { 'gitea-release-check':
+    cwd         => $gitea::work_path,
+    environment => [
+      "HOME=${gitea::work_path}",
+      "USER=${gitea::owner}",
+      "GITEA_WORK_DIR=${gitea::work_path}",
+    ],
+    user        => $gitea::owner,
+    umask       => $gitea::umask,
+    command     => "${bin_path}.stage doctor check --run paths --log-file '' || ${bin_path}.stage doctor --run paths --log-file ''",
+    onlyif      => [
+      "/usr/bin/env test -f ${gitea::work_path}/custom/conf/app.ini",
+      "/usr/bin/env cmp ${bin_path} ${bin_path}.stage; /usr/bin/env test $? -eq 1",
+    ],
+  }
+  -> file { $bin_path:
+    source => "${bin_path}.stage",
+    mode   => '0755',
   }
 }

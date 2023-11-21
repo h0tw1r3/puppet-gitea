@@ -28,7 +28,7 @@ describe 'gitea', type: :class do
   it {
     is_expected.to contain_archive('gitea')
       .with(
-        path: '/opt/gitea/gitea',
+        path: '/opt/gitea/gitea.stage',
         source: %r{https://dl.gitea.io/gitea/.*/gitea-.*},
         checksum: %r{^[a-z0-9]{64}$},
         checksum_type: 'sha256',
@@ -54,7 +54,34 @@ describe 'gitea', type: :class do
   end
 
   it {
+    is_expected.to contain_file('/opt/gitea/gitea.stage')
+      .with_mode('0755')
+  }
+
+  it {
+    is_expected.to contain_exec('gitea-release-check')
+      .with_cwd('/opt/gitea')
+      .with_environment(
+        [
+          'HOME=/opt/gitea',
+          'USER=git',
+          'GITEA_WORK_DIR=/opt/gitea',
+        ],
+      )
+      .with_user('git')
+      .with_umask('0027')
+      .with_command("/opt/gitea/gitea.stage doctor check --run paths --log-file '' || /opt/gitea/gitea.stage doctor --run paths --log-file ''")
+      .with_onlyif(
+        [
+          '/usr/bin/env test -f /opt/gitea/custom/conf/app.ini',
+          '/usr/bin/env cmp /opt/gitea/gitea /opt/gitea/gitea.stage; /usr/bin/env test $? -eq 1',
+        ],
+      )
+  }
+
+  it {
     is_expected.to contain_file('/opt/gitea/gitea')
+      .with_source('/opt/gitea/gitea.stage')
       .with_mode('0755')
   }
 
