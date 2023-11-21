@@ -16,9 +16,9 @@ fixtures:
       ref: '7.0.0'
     extlib:
       repo: 'puppet/extlib'
-      ref: '6.2.0'
+      ref: '7.0.0'
     systemd:
       repo: 'puppet/systemd'
-      ref: '5.2.0'
+      ref: '6.2.0'
   repositories:
     provision: 'https://github.com/puppetlabs/provision.git'
