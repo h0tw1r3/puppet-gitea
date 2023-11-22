@@ -1,5 +1,5 @@
 # This is a generic workflow for Puppet module acceptance operations.
-name: "Module Acceptance"
+name: "Module Acceptance Tests"
 
 on:
   workflow_call:
