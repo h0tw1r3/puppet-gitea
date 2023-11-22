@@ -5,6 +5,13 @@ appveyor.yml:
   delete: true
 .gitlab-ci.yml:
   delete: true
+.rubocop.yml:
+  default_configs:
+    AllCops:
+      NewCops: enable
+    RSpec/RepeatedDescription:
+      Exclude:
+        - spec/classes/**.*.rb
 .pdkignore:
   paths:
     - /.*.yml

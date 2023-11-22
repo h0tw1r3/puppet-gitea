@@ -18,6 +18,7 @@ AllCops:
   - "**/Puppetfile"
   - "**/Vagrantfile"
   - "**/Guardfile"
+  NewCops: enable
 Layout/LineLength:
   Description: People have wide screens, use them.
   Max: 200
@@ -71,6 +72,9 @@ Style/TrailingCommaInArrayLiteral:
 Style/SymbolArray:
   Description: Using percent style obscures symbolic intent of array's contents.
   EnforcedStyle: brackets
+RSpec/RepeatedDescription:
+  Exclude:
+  - spec/classes/**.*.rb
 RSpec/MessageSpies:
   EnforcedStyle: receive
 Style/Documentation:
