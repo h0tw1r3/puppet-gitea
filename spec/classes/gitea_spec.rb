@@ -123,7 +123,7 @@ describe 'gitea', type: :class do
       },
       'actions' => {
         'ENABLED' => 'true',
-        'DEFAULT_ACTIONS_URL' => 'self'
+        'DEFAULT_ACTIONS_URL' => 'github'
       },
       'log' => {
         'logger.router.MODE' => nil
