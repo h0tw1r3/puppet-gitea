@@ -79,10 +79,10 @@ Use the `gitea::custom::file` resource to manage files in Gitea's _custom_
 directory. Subdirectories are automatically created for you.
 
 ```puppet
-gitea::custom::file { 'public/css/custom.css':
+gitea::custom::file { 'public/assets/css/custom.css':
   content => file('profile/gitea/custom.css'),
 }
-gitea::custom::file { 'public/img/logo.svg':
+gitea::custom::file { 'public/assets/img/logo.svg':
   source => 'puppet:///modules/profile/gitea/logo.svg',
 }
 ```
