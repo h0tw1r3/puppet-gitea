@@ -1,6 +1,6 @@
 {
   "name": "h0tw1r3-gitea",
-  "version": "3.1.2",
+  "version": "3.1.3",
   "author": "Jeffrey Clark <h0tw1r3@users.noreply.github.com>",
   "summary": "A module to manage Gitea, a painless self-hosted Git service",
   "license": "Apache-2.0",
@@ -33,27 +33,31 @@
     {
       "operatingsystem": "AlmaLinux",
       "operatingsystemrelease": [
-        "8"
+        "8",
+        "9"
       ]
     },
     {
       "operatingsystem": "Rocky",
       "operatingsystemrelease": [
-        "8"
+        "8",
+        "9"
       ]
     },
     {
       "operatingsystem": "Debian",
       "operatingsystemrelease": [
         "10",
-        "11"
+        "11",
+        "12"
       ]
     },
     {
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
         "20.04",
-        "22.04"
+        "22.04",
+        "24.04"
       ]
     }
   ],
