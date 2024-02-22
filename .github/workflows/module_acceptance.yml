@@ -77,12 +77,7 @@ jobs:
 
       - name: "Provision environment"
         run: |
-          if [[ "${{matrix.platforms.provider}}" == "docker" ]]; then
-            DOCKER_RUN_OPTS="docker_run_opts: {'--volume': '/lib/modules/$(uname -r):/lib/modules/$(uname -r)'}"
-          else
-            DOCKER_RUN_OPTS=''
-          fi
-          bundle exec rake "litmus:provision[${{matrix.platforms.provider}},${{ matrix.platforms.image }},$DOCKER_RUN_OPTS]"
+          bundle exec rake "litmus:provision[${{matrix.platforms.provider}},${{ matrix.platforms.image }}]"
           # Redact password
           FILE='spec/fixtures/litmus_inventory.yaml'
           sed -e 's/password: .*/password: "[redacted]"/' < $FILE || true
@@ -93,11 +88,11 @@ jobs:
 
       - name: "Install module"
         run: |
-          bundle exec rake 'litmus:install_modules_from_fixtures'
+          bundle exec rake 'litmus:install_module'
 
       - name: "Run acceptance tests"
         run: |
-          bundle exec rake 'litmus:acceptance:parallel'
+          bundle exec rake 'litmus:acceptance'
 
       - name: "Remove test environment"
         if: ${{ always() }}
