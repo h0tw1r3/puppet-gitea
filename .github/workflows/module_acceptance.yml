@@ -78,6 +78,7 @@ jobs:
 
       - name: Provision test environment
         id: provision-environment
+        continue-on-error: ${{ contains(fromJson('["provision_service"]'), matrix.platforms.provider) }}
         run: |
           bundle exec rake 'litmus:provision[${{matrix.platforms.provider}},${{ matrix.platforms.image }}]'
           FILE='spec/fixtures/litmus_inventory.yaml'
@@ -91,20 +92,23 @@ jobs:
           fi
 
       - name: Install agent
+        if: ${{ steps.provision-environment.outcome == 'success' }}
         run: |
           echo ::group::agent
           bundle exec rake 'litmus:install_agent[${{ matrix.collection }}]'
           echo ::endgroup::
 
       - name: Install module
+        if: ${{ steps.provision-environment.outcome == 'success' }}
         run: bundle exec rake 'litmus:install_module'
 
       - name: Run acceptance tests
+        if: ${{ steps.provision-environment.outcome == 'success' }}
         id: run-acceptance
         run: bundle exec rake 'litmus:acceptance'
 
       - name: Failure Logs
-        if: ${{ failure() && steps.run-acceptance.conclusion == 'failure' }}
+        if: ${{ failure() && steps.run-acceptance.outcome == 'failure' }}
         continue-on-error: true
         run: |
           echo ::group::last 100 lines in runner journal
@@ -118,7 +122,7 @@ jobs:
           echo ::endgroup::
 
       - name: Tear down
-        if: ${{ always() && steps.provision-environment.conclusion == 'success' }}
+        if: ${{ always() && steps.provision-environment.outcome == 'success' }}
         continue-on-error: true
         run: |
           if [[ -f spec/fixtures/litmus_inventory.yaml ]]; then
