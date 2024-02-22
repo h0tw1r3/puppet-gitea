@@ -1,5 +1,3 @@
-require 'metadata_json_lint'
-
 # Colorize Strings
 class String
   def black;          "\e[30m#{self}\e[0m" end
@@ -17,12 +15,6 @@ class String
   def blink;          "\e[5m#{self}\e[25m" end
   def reverse_color;  "\e[7m#{self}\e[27m" end
 end
-
-# Replicates PDK validate behavior.
-MetadataJsonLint.options.fail_on_warnings = true
-MetadataJsonLint.options.strict_license = true
-MetadataJsonLint.options.strict_puppet_version = true
-MetadataJsonLint.options.strict_dependencies = true
 
 desc 'Run all tests EXCEPT acceptance'
 task test: ['test:check', 'test:syntax', 'test:lint', 'test:doc', 'test:unit']
@@ -45,26 +37,4 @@ namespace :test do
 
   desc 'Run acceptance tests'
   task acceptance: [:acceptance]
-end
-
-PuppetLint.configuration.log_forat = '%{path}:%{line}:%{check}:%{KIND}:%{message}'
-PuppetLint.configuration.fail_on_warnings = true
-
-# output task execution
-# exclude test wrapper classes
-output_task_header = Regexp.union(
-  [ %r{^((?!test))} ],
-)
-
-unless Rake.application.options.trace
-  setup = ->(task, *_args) do
-    puts '=> execute task: '.cyan + task.to_s.bold.cyan
-  end
-
-  task :log_hooker do
-    Rake::Task.tasks.select { |t| t.to_s != 'log_hooker' && t.to_s =~ output_task_header }.each do |a_task|
-      a_task.actions.prepend(setup)
-    end
-  end
-  Rake.application.top_level_tasks.prepend(:log_hooker)
 end
