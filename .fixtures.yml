@@ -3,22 +3,12 @@
 ---
 fixtures:
   forge_modules:
-    facts: 'puppetlabs/facts'
-    puppet_agent: 'puppetlabs/puppet_agent'
-    stdlib:
-      repo: 'puppetlabs/stdlib'
-      ref: '8.5.0'
-    inifile:
-      repo: 'puppetlabs/inifile'
-      ref: '6.1.0'
-    archive:
-      repo: 'puppet/archive'
-      ref: '7.0.0'
-    extlib:
-      repo: 'puppet/extlib'
-      ref: '7.0.0'
-    systemd:
-      repo: 'puppet/systemd'
-      ref: '6.2.0'
+    stdlib: 'puppetlabs/stdlib'
+    inifile: 'puppetlabs/inifile'
+    archive: 'puppet/archive'
+    extlib: 'puppet/extlib'
+    systemd: 'puppet/systemd'
   repositories:
     provision: 'https://github.com/puppetlabs/provision.git'
+    puppet_agent: 'https://github.com/puppetlabs/puppetlabs-puppet_agent.git'
+    facts: 'https://github.com/puppetlabs/puppetlabs-facts.git'
