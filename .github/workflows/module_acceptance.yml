@@ -77,6 +77,7 @@ jobs:
             test-
 
       - name: Provision test environment
+        id: provision-environment
         run: |
           bundle exec rake 'litmus:provision[${{matrix.platforms.provider}},${{ matrix.platforms.image }}]'
           FILE='spec/fixtures/litmus_inventory.yaml'
@@ -117,7 +118,7 @@ jobs:
           echo ::endgroup::
 
       - name: Tear down
-        if: ${{ always() }}
+        if: ${{ always() && steps.provision-environment.conclusion == 'success' }}
         continue-on-error: true
         run: |
           if [[ -f spec/fixtures/litmus_inventory.yaml ]]; then
