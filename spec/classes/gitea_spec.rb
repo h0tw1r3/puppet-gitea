@@ -13,8 +13,6 @@ describe 'gitea', type: :class do
   let(:facts) { os_facts }
 
   # gitea
-  it { is_expected.to compile.with_all_deps }
-
   it { is_expected.to contain_class('gitea') }
   it { is_expected.to contain_class('gitea::service::user').that_comes_before('Class[gitea::install]') }
   it { is_expected.to contain_class('gitea::install').that_comes_before('Class[gitea::config]') }
@@ -39,6 +37,7 @@ describe 'gitea', type: :class do
 
   [
     '/opt/gitea',
+    '/opt/gitea/log',
     '/opt/gitea/data',
     '/opt/gitea/data/gitea-repositories',
     '/opt/gitea/data/sessions',
@@ -179,4 +178,24 @@ describe 'gitea', type: :class do
       .with_managehome(true)
       .with_system(true)
   }
+
+  context 'ensure with url' do
+    let(:params) do
+      {
+        ensure: 'https://codeberg.org/forgejo/forgejo/releases/download/v1.21.6-0/forgejo-1.21.6-0-linux-amd64',
+      }
+    end
+
+    context 'without checksum' do
+      it { is_expected.to compile.and_raise_error(%r{checksum}) }
+    end
+
+    context 'with checksum' do
+      let(:params) do
+        super().merge({ checksum: 'e86f446236a287b9ba2c65f8ff7b0a9ea4f451a5ffc3134f416f751e1eecf97c' })
+      end
+
+      it { is_expected.to compile.with_all_deps }
+    end
+  end
 end
