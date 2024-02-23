@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release 3.2.0 (2024-02-23)
+
+**Features**
+
+- Support installing directly from URL
+
 ## Release 3.1.0 (2023-11-21)
 
 **Features**
