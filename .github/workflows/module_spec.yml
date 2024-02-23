@@ -69,11 +69,8 @@ jobs:
             test-${{ env.cache-name }}-
             test-
 
-      - name: "Static & syntax tests"
-        run: bundle exec rake test:check test:syntax
-
-      - name: "Lint & documentation tests"
-        run: bundle exec rake test:lint test:doc
+      - name: "Static & syntax & lint tests"
+        run: bundle exec rake test:check test:syntax test:lint
 
       - name: "Metadata dependency check"
         run: |
