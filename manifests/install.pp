@@ -28,7 +28,18 @@ class gitea::install (
       group  => $gitea::group,
   }
 
-  $vars = Deferred('gitea::archive_resource', [$bin_path, $gitea::base_url, $checksums, $gitea::ensure, $gitea::checksum])
+  if $gitea::ensure =~ Stdlib::HTTPurl {
+    if $gitea::checksum !~ String[64] {
+      fail('gitea::checksum parameter requires sha256 checksum')
+    }
+    $vars = {
+      source        => $gitea::ensure,
+      checksum      => $gitea::checksum,
+      checksum_type => 'sha256',
+    }
+  } else {
+    $vars = Deferred('gitea::archive_resource', [$bin_path, $gitea::base_url, $checksums, $gitea::ensure, $gitea::checksum])
+  }
 
   archive { 'gitea':
     path          => "${bin_path}.stage",

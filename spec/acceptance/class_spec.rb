@@ -53,9 +53,23 @@ describe 'gitea class' do
       it { is_expected.to be_enabled }
     end
 
-    # FIXME: not working on rhel litmusimages (no ss command?)
-    # describe port(3000) do
-    #   it { is_expected.to be_listening }
-    # end
+    describe port(3000) do
+      it { is_expected.to be_listening }
+    end
+  end
+
+  context 'install custom version' do
+    let(:pp) do
+      <<-MANIFEST
+      class { 'gitea':
+        ensure   => 'https://codeberg.org/forgejo/forgejo/releases/download/v1.21.6-0/forgejo-1.21.6-0-linux-amd64',
+        checksum => 'e86f446236a287b9ba2c65f8ff7b0a9ea4f451a5ffc3134f416f751e1eecf97c',
+      }
+      MANIFEST
+    end
+
+    it 'behaves idempotently' do
+      idempotent_apply(pp)
+    end
   end
 end

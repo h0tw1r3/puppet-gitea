@@ -27,6 +27,12 @@
 #     checksum => 'bc4a8e1f5d5f64d4be2e50c387de08d07c062aecdba2f742c2f61c20accfcc46',
 #   }
 #
+# @example Install compatible build from URL
+#   class { 'gitea':
+#     ensure   => 'https://codeberg.org/forgejo/forgejo/releases/download/v1.21.6-0/forgejo-1.21.6-0-linux-amd64',
+#     checksum => 'e86f446236a287b9ba2c65f8ff7b0a9ea4f451a5ffc3134f416f751e1eecf97c',
+#   }
+#
 # @see https://gitea.io
 #
 # @param manage_user
@@ -56,11 +62,11 @@
 # @param base_url
 #   Download base URL
 #
-# @param ensure 
-#   Version of gitea to install, 'installed', or 'latest'
+# @param ensure
+#   Version of gitea to install, 'installed', 'latest', or URL a to release binary
 #
 # @param checksum
-#   Checksum for the release binary 
+#   Checksum for the release binary
 #
 # @param work_path
 #   Target directory for the gitea installation
@@ -101,7 +107,7 @@ class gitea (
 
   Optional[String] $proxy,
   String $base_url,
-  Variant[Pattern[/\d+\.\d+\.\d+/],Enum['latest','installed']] $ensure,
+  Variant[Pattern[/\d+\.\d+\.\d+/],Enum['latest','installed'],Stdlib::HTTPUrl] $ensure,
   String $work_path,
 
   Hash $custom_configuration,
