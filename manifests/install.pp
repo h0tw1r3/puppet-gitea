@@ -19,6 +19,7 @@ class gitea::install (
 
   file { [
       $gitea::work_path,
+      "${$gitea::work_path}/log",
       $gitea::configuration['server']['APP_DATA_PATH'],
       $gitea::configuration['repository']['ROOT'],
       "${gitea::configuration['server']['APP_DATA_PATH']}/sessions",

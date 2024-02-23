@@ -37,6 +37,7 @@ describe 'gitea', type: :class do
 
   [
     '/opt/gitea',
+    '/opt/gitea/log',
     '/opt/gitea/data',
     '/opt/gitea/data/gitea-repositories',
     '/opt/gitea/data/sessions',
