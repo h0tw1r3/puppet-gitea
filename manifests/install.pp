@@ -13,7 +13,7 @@ class gitea::install (
   Array[String] $packages,
   Hash $checksums,
 ) {
-  ensure_packages($packages)
+  stdlib::ensure_packages($packages)
 
   $bin_path = "${gitea::work_path}/gitea"
 
