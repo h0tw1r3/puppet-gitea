@@ -11,7 +11,7 @@ if [ -z "${VERSION}" ] ; then
 fi
 
 declare -A KAS
-KAS["linux"]="386,amd64,arm-5,arm-6,arm64"
+KAS["linux"]="amd64,arm-5,arm-6,arm64"
 
 echo -e "gitea::checksum:\n  ${VERSION}:"
 for KA in "${!KAS[@]}" ; do
