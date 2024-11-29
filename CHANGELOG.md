@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release 3.3.0 (2024-11-29)
+
+**Features**
+
+- Update checksum for 1.22.4
+
+**Fixes**
+
+- Update deprecated function
+
+**Chores**
+
+- Update tested OS versions
+- Vendor no longer builds for i386
+
 ## Release 3.2.0 (2024-02-23)
 
 **Features**
