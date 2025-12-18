@@ -10,6 +10,7 @@ class gitea::runner (
   String $owner,
   String $path,
   String $group,
+  String $version,
 ) {
   $configuration = deep_merge($default_configuration, $custom_configuration)
 
@@ -22,9 +23,17 @@ class gitea::runner (
   }
 
   $runner_configuration = {
-    'path'    => "${path}/runner/act-runner-config.yaml",
+    'path'    => "${path}/act-runner-config.yaml",
     'require' => File[$path],
-    #'notify'  => Class['gitea::runner::service'],
+    'notify'  => Service['gitea-runner'],
+  }
+
+  file { "${path}/act_runner":
+    ensure => file,
+    owner  => $owner,
+    group  => $group,
+    mode   => '0700',
+    source => "https://dl.gitea.com/act_runner/${version}/act_runner-${version}-linux-amd64",
   }
 
   file { $runner_configuration['path']:

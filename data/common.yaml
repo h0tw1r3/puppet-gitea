@@ -85,4 +85,5 @@ gitea::runner::default_configuration:
 gitea::runner::custom_configuration: {}
 gitea::runner::owner: git
 gitea::runner::group: git
-gitea::runner::path: "/opt/gitea"
+gitea::runner::path: "/opt/gitea/runner"
+gitea::runner::version: "0.2.13"
