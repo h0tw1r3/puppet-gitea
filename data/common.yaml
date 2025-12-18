@@ -82,7 +82,7 @@ gitea::runner::default_configuration:
   host:
     workdir_parent: "/opt/gitea/runner-cache/act"
 
-gitea::runner::custom_configuration: ""
+gitea::runner::custom_configuration: {}
 gitea::runner::owner: git
 gitea::runner::group: git
 gitea::runner::path: "/opt/gitea/"
