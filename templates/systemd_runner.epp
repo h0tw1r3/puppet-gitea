@@ -1,0 +1,21 @@
+<%- | String $user,
+      String $group,
+      String $path,
+| -%>
+[Unit]
+Description=Gitea
+After=network.target
+
+[Service]
+Type=simple
+Restart=on-failure
+User=<%= $user %>
+Group=<%= $group %>
+WorkingDirectory=<%= $path %>
+ExecStart=<%= $path %>/act_runner daemon  --config act-runner-config.yaml
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+Environment=USER=<%= $user %> GITEA_WORK_DIR=<%= $path %>
+LimitNOFILE=49152
+
+[Install]
+WantedBy=multi-user.target

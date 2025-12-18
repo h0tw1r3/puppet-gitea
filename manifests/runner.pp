@@ -34,4 +34,20 @@ class gitea::runner (
     mode    => '0600',
     content => to_yaml($configuration),
   }
+
+  file { '/usr/lib/systemd/system/gitea-runner.service' :
+    ensure  => 'file',
+    owner   => 'root',
+    group   => 'root',
+    content => epp('gitea/systemd_runner.epp', {
+        user  => $gitea::runner::owner,
+        group => $gitea::runner::group,
+        path  => $gitea::runner::path,
+    }),
+    notify  => Service['gitea-runner'],
+  }
+  service { 'gitea-runner':
+    ensure => 'running',
+    enable => true,
+  }
 }
