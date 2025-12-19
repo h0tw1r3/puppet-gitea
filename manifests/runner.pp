@@ -11,6 +11,8 @@ class gitea::runner (
   String $path,
   String $group,
   String $version,
+  String $gitea_url,
+  String $token,
 ) {
   $configuration = deep_merge($default_configuration, $custom_configuration)
 
@@ -42,6 +44,12 @@ class gitea::runner (
     group   => $group,
     mode    => '0600',
     content => to_yaml($configuration),
+  }
+
+  exec { 'register_runner':
+    command => "${path}/act_runner register --no-interactive --instance ${gitea_url} --token ${token}",
+    onlyif  => "test ! -e ${path}/.runner",
+    path    => $path,
   }
 
   file { '/usr/lib/systemd/system/gitea-runner.service' :
