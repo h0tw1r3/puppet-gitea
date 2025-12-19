@@ -15,6 +15,8 @@ class gitea::runner (
   String $token,
 ) {
   $configuration = deep_merge($default_configuration, $custom_configuration)
+  $kernel = downcase($facts['kernel'])
+  $arch = downcase($facts['architecture'])
 
   file { [
       "${path}/runner",
@@ -35,7 +37,7 @@ class gitea::runner (
     owner  => $owner,
     group  => $group,
     mode   => '0700',
-    source => "https://dl.gitea.com/act_runner/${version}/act_runner-${version}-linux-amd64",
+    source => "https://dl.gitea.com/act_runner/${version}/act_runner-${version}-${kernel}-${arch}",
   }
 
   file { $runner_configuration['path']:
