@@ -47,7 +47,7 @@ class gitea::runner (
   }
 
   exec { 'register_runner':
-    command => "${path}/act_runner register --no-interactive --instance ${gitea_url} --token ${token}",
+    command => "${path}/act_runner register --no-interactive --instance ${gitea_url} --token ${token} --config ${path}/act-runner-config.yaml",
     onlyif  => "/usr/bin/test ! -e ${path}/.runner",
     path    => $path,
   }
