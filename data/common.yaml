@@ -87,4 +87,4 @@ gitea::runner::owner: git
 gitea::runner::group: git
 gitea::runner::path: "/opt/gitea/runner"
 gitea::runner::version: "0.2.13"
-gitea::runner::gitea_url: https://localhost:3000
+gitea::runner::gitea_url: http://localhost:3000
