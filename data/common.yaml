@@ -58,9 +58,9 @@ gitea::runner::default_configuration:
     fetch_timeout: 5s
     fetch_interval: 2s
     github_mirror: ''
-  labels:
-    - "self-hosted:host"
-    - "jdk:docker://azul/zulu-openjdk:21"
+    labels:
+      - "self-hosted:host"
+      - "ubuntu-latest:docker://docker.gitea.com/runner-images:ubuntu-latest"
   cache:
     enabled: true
     dir: ""
@@ -83,8 +83,8 @@ gitea::runner::default_configuration:
     workdir_parent: "/opt/gitea/runner-cache/act"
 
 gitea::runner::custom_configuration: {}
-gitea::runner::owner: git
-gitea::runner::group: git
+gitea::runner::owner: root
+gitea::runner::group: root
 gitea::runner::path: "/opt/gitea/runner"
 gitea::runner::version: "0.2.13"
 gitea::runner::gitea_url: http://localhost:3000
