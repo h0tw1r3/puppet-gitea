@@ -16,7 +16,7 @@ class gitea::runner (
 ) {
   $configuration = deep_merge($default_configuration, $custom_configuration)
   $kernel = downcase($facts['kernel'])
-  $arch = downcase($facts['architecture'])
+  $arch = downcase($facts['os.architecture'])
 
   file { [
       "${path}/runner",
