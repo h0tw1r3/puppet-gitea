@@ -17,12 +17,10 @@ class gitea::runner (
   $configuration = deep_merge($default_configuration, $custom_configuration)
   $kernel = downcase($facts['kernel'])
   $arch = downcase($facts['os']['architecture'])
-  file { [
-      "${path}/runner",
-    ]:
-      ensure => directory,
-      owner  => $owner,
-      group  => $group,
+  file { $path:
+    ensure => directory,
+    owner  => $owner,
+    group  => $group,
   }
 
   $runner_configuration = {
