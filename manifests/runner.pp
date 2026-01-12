@@ -4,6 +4,22 @@
 #
 # @example
 #   include gitea::runner
+# @param custom_configuration
+#   custom runner config
+# @param default_configuration
+#   default runner config
+# @param owner
+#   user that runs and owns the runner
+# @param group
+#   group that runs and owns the runner
+# @param path
+#   path for the runner executable
+# @param version
+#   runner version to install
+# @param gitea_url
+#   web url to gitea for runner to register to
+# @param token
+#   runner registration token, can be found and generated in gitea webui
 class gitea::runner (
   Hash $custom_configuration,
   Hash $default_configuration,
