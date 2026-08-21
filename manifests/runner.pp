@@ -40,16 +40,16 @@ class gitea::runner (
   }
 
   $runner_configuration = {
-    'path'    => "${path}/act-runner-config.yaml",
+    'path'    => "${path}/gitea-runner-config.yaml",
     'require' => File[$path],
   }
 
-  file { "${path}/act_runner":
+  file { "${path}/gitea-runner":
     ensure => file,
     owner  => $owner,
     group  => $group,
     mode   => '0700',
-    source => "https://dl.gitea.com/act_runner/${version}/act_runner-${version}-${kernel}-${arch}",
+    source => "https://dl.gitea.com/gitea-runner/${version}/gitea-runner-${version}-${kernel}-${arch}",
   }
 
   file { $runner_configuration['path']:
@@ -62,7 +62,7 @@ class gitea::runner (
   }
 
   exec { 'register_runner':
-    command => "${path}/act_runner register --no-interactive --instance ${gitea_url} --token ${token} --config ${path}/act-runner-config.yaml",
+    command => "${path}/gitea-runner register --no-interactive --instance ${gitea_url} --token ${token} --config ${path}/gitea-runner-config.yaml",
     onlyif  => "/usr/bin/test ! -e ${path}/.runner",
     cwd     => $path,
     user    => $owner,
