@@ -64,7 +64,7 @@ class gitea::install (
     ],
     user        => $gitea::owner,
     umask       => $gitea::umask,
-    command     => "${bin_path}.stage doctor check --run paths --log-file '' || ${bin_path}.stage doctor --run paths --log-file ''",
+    command     => "${bin_path}.stage doctor check --log-file ''",
     onlyif      => [
       "/usr/bin/env test -f ${gitea::work_path}/custom/conf/app.ini",
       "/usr/bin/env cmp ${bin_path} ${bin_path}.stage; /usr/bin/env test $? -eq 1",
